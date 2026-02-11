@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bienvenidos</title>
+    <style>
+        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; display:flex; min-height:100vh; align-items:center; justify-content:center; margin:0; background:#f7f7f7; }
+        .container { background:white; padding:2rem; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.06); text-align:center; }
+        h1 { margin:0 0 0.5rem 0; font-size:1.8rem; }
+        p { margin:0; color:#555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Título de la página</h1>
+        <p id="date">Fecha: —</p>
+    </div>
+
+    <script>
+        // Muestra la fecha actual en formato legible en español
+        const d = new Date();
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const fecha = d.toLocaleDateString('es-ES', opciones);
+        document.getElementById('date').textContent = 'Fecha: ' + fecha;
+    </script>
+</body>
+</html>
