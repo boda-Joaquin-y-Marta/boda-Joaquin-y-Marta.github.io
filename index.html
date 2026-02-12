@@ -3,109 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Nos casamos! Joaquín & Marta</title>
+    <title>Boda Joaquín & Marta</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#d4af37"> <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="theme-color" content="#d4af37">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
-    <script type="module" src="app.js"></script> </head>
+</head>
 <body>
-    <header class="hero">
-        <img src="https://via.placeholder.com/600x400/FFDDC1/000000?text=VUESTRA_FOTO_AQUI" alt="Foto de Joaquín y Marta" class="hero-image">
-        <div class="hero-overlay">
-            <h1>Joaquín <span class="ampersand">&amp;</span> Marta</h1>
-            <p class="tagline">¡El gran día ha llegado!</p>
-            <p class="date">14 de Septiembre de 2026</p>
-            <div id="countdown" class="countdown"></div>
+
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <h1 class="logo-font">J & M</h1>
+            <h2>Acceso Privado</h2>
+            <p>Introduce el código de tu invitación para continuar:</p>
+            <input type="text" id="guest-code-input" placeholder="CÓDIGO AQUÍ">
+            <button id="btn-login" class="btn-submit">Entrar</button>
+            <p id="login-error" class="error-msg" style="display: none;">El código no es válido.</p>
         </div>
-    </header>
+    </div>
 
-    <main class="container">
-        <section class="info-section">
-            <h2>Nuestra Historia</h2>
-            <p>Desde el primer café hasta el "sí, quiero", cada paso ha sido una aventura. ¡Estamos deseando compartir el siguiente capítulo con vosotros!</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </section>
-
-        <section class="info-section">
-            <h2>El Evento</h2>
-            <div class="event-details">
-                <div class="event-item">
-                    <h3>Ceremonia</h3>
-                    <p>Iglesia de San Pedro</p>
-                    <p>17:00h - Calle Mayor, 10, Madrid</p>
-                    <a href="https://maps.app.goo.gl/TU_CEREMONIA_MAPA" target="_blank" class="btn-map">Ver en mapa</a>
-                </div>
-                <div class="event-item">
-                    <h3>Banquete</h3>
-                    <p>Finca Las Rozas</p>
-                    <p>19:00h - Carretera de Las Rozas, Km 5, Madrid</p>
-                    <a href="https://maps.app.goo.gl/TU_BANQUETE_MAPA" target="_blank" class="btn-map">Ver en mapa</a>
-                </div>
+    <div id="main-content" style="display: none;">
+        <header class="hero">
+            <div class="hero-overlay">
+                <h1 id="welcome-message">¡Hola!</h1>
+                <p class="tagline">Nos casamos y queremos que estés allí</p>
+                <p class="date">14 de Septiembre de 2026</p>
             </div>
-        </section>
+        </header>
 
-        <section class="rsvp-section">
-            <h2>¡Confirma tu Asistencia!</h2>
-            <p>Por favor, ayúdanos a organizar este día tan especial confirmando tu asistencia antes del 14 de Agosto de 2026.</p>
+        <main class="container">
+            <section class="info-section">
+                <h2>El Evento</h2>
+                <div class="event-details">
+                    <div class="event-item">
+                        <h3>Ceremonia</h3>
+                        <p>17:00h - Iglesia de San Pedro</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn-map">Ver mapa</a>
+                    </div>
+                </div>
+            </section>
 
-            <form id="rsvp-form">
-                <div class="form-group">
-                    <label for="nombre">Tu Nombre Completo:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="asistencia">¿Asistirás a la boda?</label>
-                    <select id="asistencia" name="asistencia" required>
-                        <option value="">Selecciona una opción</option>
-                        <option value="si">Sí, asistiré</option>
-                        <option value="no">No podré asistir</option>
-                    </select>
-                </div>
-                <div class="form-group" id="acompanante-group" style="display:none;">
-                    <label for="acompanante">¿Vendrás con acompañante?</label>
-                    <input type="text" id="acompanante" name="acompanante" placeholder="Nombre del acompañante (si aplica)">
-                </div>
-                <div class="form-group">
-                    <label for="autobus">¿Necesitarás autobús desde [Punto de Recogida]?</label>
-                    <select id="autobus" name="autobus" required>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="menu">¿Tienes alguna alergia o requisito alimentario?</label>
-                    <textarea id="menu" name="menu" rows="3" placeholder="Ej: Vegetariano, celíaco, alergia a frutos secos..."></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Enviar Confirmación</button>
-                <p id="form-message" class="form-message"></p>
-            </form>
-        </section>
+            <section class="rsvp-section">
+                <h2>Confirma tu Asistencia</h2>
+                <form id="rsvp-form">
+                    <div class="form-group">
+                        <label>¿Asistirás?</label>
+                        <select id="asistencia" required>
+                            <option value="si">Sí, ¡allí estaré!</option>
+                            <option value="no">No puedo ir</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Alergias o notas:</label>
+                        <textarea id="menu" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Confirmar</button>
+                    <p id="form-message"></p>
+                </form>
+            </section>
+        </main>
+    </div>
 
-        <section class="info-section">
-            <h2>Regalos</h2>
-            <p>Vuestro mejor regalo es compartir este día con nosotros. Si aún así queréis hacernos un detalle, podéis contribuir a nuestra luna de miel:</p>
-            <p><strong>Nº de Cuenta:</strong> ES00 0000 0000 0000 0000 0000</p>
-            <p>¡Gracias de corazón!</p>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Joaquín & Marta. ¡Gracias por formar parte de nuestra historia!</p>
-    </footer>
-
+    <script type="module" src="app.js"></script>
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registrado con éxito', reg))
-            .catch(err => console.error('Error al registrar Service Worker:', err));
-        });
-      }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
     </script>
 </body>
 </html>

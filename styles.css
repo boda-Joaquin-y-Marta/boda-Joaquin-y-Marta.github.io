@@ -1,0 +1,59 @@
+:root {
+    --gold: #d4af37;
+    --dark: #2c3e50;
+    --cream: #fdfaf5;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--cream);
+    margin: 0;
+}
+
+.logo-font { font-family: 'Dancing Script', cursive; color: var(--gold); }
+
+/* Pantalla de Login */
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1200');
+    background-size: cover;
+}
+
+.login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 350px;
+    width: 90%;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Botones y Secciones */
+.btn-submit {
+    background: var(--gold);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+}
+
+.container { padding: 20px; max-width: 800px; margin: auto; }
+.info-section { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.error-msg { color: #e74c3c; font-size: 0.9rem; margin-top: 10px; }

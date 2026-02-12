@@ -1,93 +1,60 @@
-// Asegúrate de usar tus propias credenciales de Firebase aquí
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROJECT_ID.firebaseapp.com",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_PROJECT_ID.appspot.com",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyCFxn1ZUhd6HIF2Wj-dt6ohV2ZRH_EK4Uo",
+  authDomain: "our13wedding.firebaseapp.com",
+  projectId: "our13wedding",
+  storageBucket: "our13wedding.firebasestorage.app",
+  messagingSenderId: "365371427127",
+  appId: "1:365371427127:web:0efb39f2e5f05d0eefb2b2",
+  measurementId: "G-TXRVCYNGQQ"
 };
 
-// Importa los módulos de Firebase usando la sintaxis de módulos ES6
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-
-// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- CÓDIGO DE LA CUENTA ATRÁS ---
-const countdownElement = document.getElementById('countdown');
-const weddingDate = new Date('September 14, 2026 17:00:00').getTime(); // TU FECHA Y HORA
+let currentGuestId = null;
 
-function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = weddingDate - now;
+// LÓGICA DE ACCESO
+document.getElementById('btn-login').addEventListener('click', async () => {
+    const code = document.getElementById('guest-code-input').value.trim().toUpperCase();
+    const errorMsg = document.getElementById('login-error');
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    try {
+        const docRef = doc(db, "invitados", code);
+        const docSnap = await getDoc(docRef);
 
-    countdownElement.innerHTML = `Faltan: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-    if (distance < 0) {
-        clearInterval(countdownInterval);
-        countdownElement.innerHTML = "¡YA ESTAMOS CASADOS!";
-    }
-}
-
-const countdownInterval = setInterval(updateCountdown, 1000);
-updateCountdown(); // Ejecutar inmediatamente para evitar un segundo de retraso
-
-// --- LÓGICA DEL FORMULARIO RSVP ---
-const rsvpForm = document.getElementById('rsvp-form');
-const formMessage = document.getElementById('form-message');
-const asistenciaSelect = document.getElementById('asistencia');
-const acompananteGroup = document.getElementById('acompanante-group');
-
-// Mostrar/ocultar campo de acompañante
-asistenciaSelect.addEventListener('change', (event) => {
-    if (event.target.value === 'si') {
-        acompananteGroup.style.display = 'block';
-    } else {
-        acompananteGroup.style.display = 'none';
-        document.getElementById('acompanante').value = ''; // Limpiar el campo si no asiste
+        if (docSnap.exists()) {
+            currentGuestId = code;
+            const data = docSnap.data();
+            document.getElementById('welcome-message').innerText = `¡Hola ${data.nombre}!`;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            errorMsg.style.display = 'block';
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Error de conexión con Firebase.");
     }
 });
 
-
-rsvpForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que la página se recargue
-
-    const nombre = document.getElementById('nombre').value;
-    const asistencia = document.getElementById('asistencia').value;
-    const acompanante = document.getElementById('acompanante').value;
-    const autobus = document.getElementById('autobus').value;
-    const menu = document.getElementById('menu').value;
-
-    if (!nombre || !asistencia) {
-        formMessage.textContent = "Por favor, completa los campos obligatorios.";
-        formMessage.style.color = "red";
-        return;
-    }
+// LÓGICA DE CONFIRMACIÓN
+document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const asiste = document.getElementById('asistencia').value;
+    const notas = document.getElementById('menu').value;
 
     try {
-        await addDoc(collection(db, "invitados"), {
-            nombre: nombre,
-            asiste: asistencia === 'si', // Guarda como boolean
-            acompanante: asistencia === 'si' ? acompanante : '', // Solo si asiste
-            autobus: autobus === 'si', // Guarda como boolean
-            menu: menu,
-            timestamp: new Date() // Para saber cuándo confirmó
+        const guestRef = doc(db, "invitados", currentGuestId);
+        await updateDoc(guestRef, {
+            confirmado: true,
+            asiste: asiste === 'si',
+            notas: notas
         });
-        formMessage.textContent = "¡Gracias por confirmar tu asistencia!";
-        formMessage.style.color = "green";
-        rsvpForm.reset(); // Limpia el formulario
-        acompananteGroup.style.display = 'none'; // Oculta de nuevo el acompañante
-    } catch (error) {
-        console.error("Error al guardar la confirmación: ", error);
-        formMessage.textContent = "Hubo un error al enviar tu confirmación. Inténtalo de nuevo.";
-        formMessage.style.color = "red";
+        document.getElementById('form-message').innerText = "¡Gracias por confirmar!";
+    } catch (e) {
+        alert("Error al guardar.");
     }
 });
