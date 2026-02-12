@@ -1,0 +1,249 @@
+/* VARIABLES GLOBALES */
+:root {
+    --primary-color: #d4af37; /* Dorado o color principal */
+    --secondary-color: #6a0572; /* Morado oscuro o color secundario */
+    --text-color: #333;
+    --light-text-color: #f8f8f8;
+    --background-light: #fdfaf5; /* Crema claro */
+    --background-dark: #2c3e50;
+    --font-script: 'Dancing Script', cursive;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* TIPOGRAFÍA */
+h1, h2, h3 {
+    font-family: var(--font-script);
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 3.5em; /* Grande para los nombres */
+    color: var(--light-text-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+h1 .ampersand {
+    font-family: var(--font-script);
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+
+h2 {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-top: 40px;
+}
+
+h3 {
+    font-size: 1.8em;
+    color: var(--secondary-color);
+}
+
+p {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* CABECERA HERO */
+.hero {
+    position: relative;
+    height: 60vh; /* Altura de la cabecera */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light-text-color);
+    overflow: hidden;
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    filter: brightness(0.7); /* Oscurece un poco la imagen */
+}
+
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3); /* Fondo semitransparente para el texto */
+    border-radius: 10px;
+}
+
+.hero .tagline {
+    font-family: var(--font-script);
+    font-size: 1.8em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.hero .date {
+    font-family: var(--font-body);
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.countdown {
+    font-family: var(--font-body);
+    font-size: 1.5em;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #ffcc00; /* Color llamativo para la cuenta atrás */
+}
+
+/* SECCIONES DE INFORMACIÓN */
+.info-section {
+    background-color: #fff;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.event-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.event-item {
+    flex: 1 1 45%; /* Dos columnas en pantallas grandes */
+    background-color: var(--background-light);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.btn-map {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-map:hover {
+    background-color: #c0a030;
+}
+
+/* FORMULARIO RSVP */
+.rsvp-section {
+    background-color: #fff;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 1em;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.btn-submit {
+    display: block;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 700;
+}
+
+.btn-submit:hover {
+    background-color: #c0a030;
+}
+
+.form-message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+    background-color: var(--background-dark);
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 0.9em;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    .hero-image {
+        height: 50vh; /* Ajuste para móviles */
+    }
+    .event-item {
+        flex: 1 1 100%; /* Una columna en móviles */
+    }
+}
