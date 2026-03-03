@@ -1,59 +1,159 @@
 :root {
-    --gold: #d4af37;
-    --dark: #2c3e50;
-    --cream: #fdfaf5;
+    --burgundy: #6b1d2a; 
+    --cream: #f8f4eb; 
+    --gold: #cba052; 
+    
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Montserrat', sans-serif;
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
     background-color: var(--cream);
+    font-family: var(--font-sans);
+    color: var(--burgundy);
     margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-.logo-font { font-family: 'Dancing Script', cursive; color: var(--gold); }
-
-/* Pantalla de Login */
+/* ================= LOGIN ================= */
 .login-container {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1200');
-    background-size: cover;
+    background-color: var(--burgundy);
+    background-image: radial-gradient(circle, #8a2536 0%, #6b1d2a 100%);
 }
 
 .login-box {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
+    background: var(--cream);
+    padding: 50px 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    width: 85%;
+    max-width: 380px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    max-width: 350px;
-    width: 90%;
+    position: relative;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    margin: 15px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-/* Botones y Secciones */
-.btn-submit {
+/* Sello de lacre simulado */
+.wax-seal {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
     background: var(--gold);
     color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.3);
+    border: 2px solid #e1b86e;
 }
 
-.container { padding: 20px; max-width: 800px; margin: auto; }
-.info-section { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-.error-msg { color: #e74c3c; font-size: 0.9rem; margin-top: 10px; }
+.login-text { font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; margin-bottom: 20px;}
+
+/* ================= EFECTO TARJETAS APILADAS ================= */
+.card-stack { position: relative; }
+
+.sticky-card {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    box-shadow: 0 -15px 30px rgba(0,0,0,0.08); /* Sombra para el efecto superpuesto */
+    border-top: 1px solid rgba(107, 29, 42, 0.1);
+}
+
+/* Z-Index para asegurar que montan una sobre otra correctamente */
+.card-hero { z-index: 10; border-top: none; box-shadow: none; }
+.card-event { z-index: 20; }
+.card-dresscode { z-index: 30; }
+.card-rsvp { z-index: 40; }
+
+/* ================= FLORALES (SVGs embebidos) ================= */
+/* Esquinas florales para el Hero */
+.floral-corner {
+    position: absolute;
+    width: 150px; height: 150px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,0 C30,10 60,30 80,80 M15,10 C25,20 20,35 10,40 M40,20 C55,30 50,45 40,55 M60,40 C75,50 70,65 60,75' fill='none' stroke='%236b1d2a' stroke-width='0.5' opacity='0.4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+}
+.top-left { top: 10px; left: 10px; }
+.bottom-right { bottom: 10px; right: 10px; transform: rotate(180deg); }
+
+/* Fondo central botánico */
+.floral-center-bg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px; height: 300px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,10 C70,40 90,60 50,90 C10,60 30,40 50,10 Z M50,10 v80' fill='none' stroke='%236b1d2a' stroke-width='0.3' opacity='0.15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ================= TEXTOS Y SECCIONES ================= */
+.welcome-text { font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px;}
+.hero-subtitle { font-family: var(--font-serif); font-size: 2.5rem; font-style: italic; margin: 0 0 30px; color: var(--gold); font-weight: 400;}
+
+.hero-names { font-family: var(--font-serif); font-size: 4rem; line-height: 1.1; margin: 0; font-weight: 400; text-align: center;}
+.ampersand { font-size: 3rem; color: var(--gold); font-style: italic; }
+
+.hero-date {
+    display: flex; align-items: center; justify-content: center; gap: 15px;
+    margin: 40px 0; font-size: 1.1rem; letter-spacing: 2px; font-weight: 500;
+}
+.hero-date .line { width: 40px; height: 1px; background-color: var(--burgundy); }
+
+.countdown-container { text-align: center; margin-bottom: 40px; }
+.countdown-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;}
+.countdown { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold); font-style: italic;}
+
+.scroll-indicator { position: absolute; bottom: 20px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7;}
+.arrow-down { width: 20px; height: 20px; border-right: 2px solid var(--burgundy); border-bottom: 2px solid var(--burgundy); transform: rotate(45deg); margin: 5px auto 0; animation: bounce 2s infinite;}
+
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); } 40% { transform: translateY(-10px) rotate(45deg); } 60% { transform: translateY(-5px) rotate(45deg); } }
+
+.section-title { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; margin-bottom: 30px; text-align: center; color: var(--gold);}
+
+/* VESTIMENTA */
+.dresscode-text { text-align: center; font-size: 1.1rem; line-height: 1.6; max-width: 400px; margin-bottom: 30px;}
+.color-circles { display: flex; justify-content: center; gap: 30px; margin: 20px 0; }
+.circle { width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--cream);}
+.circle-white { background-color: #ffffff; border-color: #e0e0e0;}
+.circle-yellow { background-color: #fce270; }
+.gracias-text { font-family: var(--font-serif); font-style: italic; font-size: 1.2rem; margin-top: 30px;}
+
+/* FORMULARIO */
+.elegant-form { width: 100%; max-width: 350px; text-align: center; }
+.elegant-form input, .elegant-form select, .elegant-form textarea {
+    width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid var(--burgundy);
+    background: transparent; font-family: var(--font-sans); color: var(--burgundy); font-size: 1rem; outline: none;
+}
+.elegant-form input::placeholder, .elegant-form textarea::placeholder { color: rgba(107, 29, 42, 0.5); }
+.elegant-form select { appearance: none; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%236b1d2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 10px center; cursor: pointer; }
+
+/* BOTONES */
+.btn-submit { width: 100%; padding: 16px; border: none; border-radius: 4px; font-family: var(--font-sans); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: 10px;}
+.btn-gold { background-color: var(--gold); color: white; }
+.btn-burgundy { background-color: var(--burgundy); color: var(--cream); }
+.btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.contact-info { margin-top: 50px; font-size: 0.9rem; opacity: 0.8; text-align: center; }

@@ -3,72 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda Joaquín & Marta</title>
+    <title>Enlace Joaquín y Marta</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#d4af37">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#6b1d2a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="login-screen" class="login-container">
         <div class="login-box">
-            <h1 class="logo-font">J & M</h1>
-            <h2>Acceso Privado</h2>
-            <p>Introduce el código de tu invitación para continuar:</p>
-            <input type="text" id="guest-code-input" placeholder="CÓDIGO AQUÍ">
-            <button id="btn-login" class="btn-submit">Entrar</button>
-            <p id="login-error" class="error-msg" style="display: none;">El código no es válido.</p>
+            <div class="wax-seal">J&M</div>
+            <p class="login-text">Por favor, introduce tu código de invitado:</p>
+            <input type="text" id="guest-code-input" placeholder="Tu código aquí">
+            <button id="btn-login" class="btn-submit btn-gold">Acceder</button>
+            <p id="login-error" class="error-msg" style="display: none;">El código no es correcto.</p>
         </div>
     </div>
 
     <div id="main-content" style="display: none;">
-        <header class="hero">
-            <div class="hero-overlay">
-                <h1 id="welcome-message">¡Hola!</h1>
-                <p class="tagline">Nos casamos y queremos que estés allí</p>
-                <p class="date">14 de Septiembre de 2026</p>
-            </div>
-        </header>
-
-        <main class="container">
-            <section class="info-section">
-                <h2>El Evento</h2>
-                <div class="event-details">
-                    <div class="event-item">
-                        <h3>Ceremonia</h3>
-                        <p>17:00h - Iglesia de San Pedro</p>
-                        <a href="https://maps.google.com" target="_blank" class="btn-map">Ver mapa</a>
-                    </div>
+        
+        <main class="card-stack">
+            <section class="card sticky-card card-hero">
+                <div class="floral-corner top-left"></div>
+                <div class="floral-corner bottom-right"></div>
+                
+                <p id="welcome-message" class="welcome-text"></p>
+                <h2 class="hero-subtitle">¡Nos Casamos!</h2>
+                <h1 class="hero-names">Joaquín<br><span class="ampersand">&</span><br>Marta</h1>
+                
+                <div class="hero-date">
+                    <span class="line"></span>
+                    <p>13 · JUNIO · 2026</p>
+                    <span class="line"></span>
+                </div>
+                
+                <div class="countdown-container">
+                    <p class="countdown-label">El gran día llegará en:</p>
+                    <div id="countdown" class="countdown"></div>
+                </div>
+                
+                <div class="scroll-indicator">
+                    <p>Desliza</p>
+                    <div class="arrow-down"></div>
                 </div>
             </section>
 
-            <section class="rsvp-section">
-                <h2>Confirma tu Asistencia</h2>
-                <form id="rsvp-form">
+            <section class="card sticky-card card-event">
+                <div class="floral-center-bg"></div>
+                <h2 class="section-title">El Evento</h2>
+                
+                <div class="event-details">
+                    <h3>Ceremonia y Celebración</h3>
+                    <p class="event-time">Sábado, 13 de Junio de 2026 a las 18:00h</p>
+                    <p class="event-location">Lugar de la Ceremonia</p>
+                    <p class="event-address">Dirección completa de la finca o iglesia</p>
+                    </div>
+            </section>
+
+            <section class="card sticky-card card-dresscode">
+                <h2 class="section-title">Código de Vestimenta</h2>
+                <p class="dresscode-text">Para este día tan especial, os pedimos amablemente que evitéis vestir en tonos blancos y amarillos.</p>
+                
+                <div class="color-circles">
+                    <div class="circle circle-white" title="Evitar Blanco"></div>
+                    <div class="circle circle-yellow" title="Evitar Amarillo"></div>
+                </div>
+                
+                <p class="gracias-text">¡Gracias por vuestra comprensión!</p>
+            </section>
+
+            <section class="card sticky-card card-rsvp">
+                <h2 class="section-title">Asistencia</h2>
+                <p class="deadline">Por favor, confirma antes del <strong>15 de Abril</strong></p>
+                
+                <form id="rsvp-form" class="elegant-form">
                     <div class="form-group">
-                        <label>¿Asistirás?</label>
                         <select id="asistencia" required>
-                            <option value="si">Sí, ¡allí estaré!</option>
-                            <option value="no">No puedo ir</option>
+                            <option value="" disabled selected>¿Nos acompañarás?</option>
+                            <option value="si">¡Sí, allí estaré!</option>
+                            <option value="no">Lo siento, no podré asistir</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Alergias o notas:</label>
-                        <textarea id="menu" rows="2"></textarea>
+                    
+                    <div id="extra-fields" style="display: none;">
+                        <div class="form-group">
+                            <input type="tel" id="telefono" placeholder="Tu número de teléfono">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="menu" rows="2" placeholder="Alergias, menú especial o notas..."></textarea>
+                        </div>
                     </div>
-                    <button type="submit" class="btn-submit">Confirmar</button>
-                    <p id="form-message"></p>
+
+                    <button type="submit" class="btn-submit btn-burgundy">Confirmar</button>
+                    <p id="form-message" class="success-msg"></p>
                 </form>
+
+                <div class="contact-info">
+                    <p>¿Alguna duda?</p>
+                    <p>Marta: 675 75 39 52 | Joaquín: 650 30 82 99</p>
+                </div>
             </section>
         </main>
     </div>
 
     <script type="module" src="app.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js');
-        }
-    </script>
 </body>
 </html>

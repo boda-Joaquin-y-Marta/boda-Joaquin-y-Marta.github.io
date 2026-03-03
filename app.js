@@ -16,21 +16,31 @@ const db = getFirestore(app);
 
 let currentGuestId = null;
 
-const btnLogin = document.getElementById('btn-login');
-const codeInput = document.getElementById('guest-code-input');
-const loginScreen = document.getElementById('login-screen');
-const mainContent = document.getElementById('main-content');
-const errorMsg = document.getElementById('login-error');
-const welcomeMsg = document.getElementById('welcome-message');
+// --- CUENTA ATRÁS ---
+const countdownElement = document.getElementById('countdown');
+const weddingDate = new Date('June 13, 2026 18:00:00').getTime();
 
+setInterval(() => {
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
+    if (distance < 0) {
+        countdownElement.innerHTML = "¡Es hoy!";
+        return;
+    }
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m`;
+}, 1000);
+
+// --- ACCESO ---
 const showInvitation = (nombre) => {
-    welcomeMsg.innerText = `¡Hola ${nombre}!`;
-    loginScreen.style.display = 'none';
-    mainContent.style.display = 'block';
-    window.scrollTo(0, 0);
+    document.getElementById('welcome-message').innerText = `BIENVENIDO/A, ${nombre}`;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    window.scrollTo(0, 0); // Para empezar siempre arriba
 };
 
-// AUTO-LOGIN SI YA ENTRÓ ANTES
 window.addEventListener('load', async () => {
     const savedCode = sessionStorage.getItem('guestCode');
     if (savedCode) {
@@ -38,19 +48,19 @@ window.addEventListener('load', async () => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             currentGuestId = savedCode;
-            showInvitation(docSnap.data().name); // Usamos .name de tu Firebase
+            showInvitation(docSnap.data().name); 
         }
     }
 });
 
-// BOTÓN ENTRAR
+const btnLogin = document.getElementById('btn-login');
 btnLogin.addEventListener('click', async () => {
-    const code = codeInput.value.trim(); // Nota: Los IDs de Firebase distinguen Mayúsculas/Minúsculas
-    
+    const code = document.getElementById('guest-code-input').value.trim(); 
     if (!code) return;
 
-    btnLogin.innerText = "Verificando...";
+    btnLogin.innerText = "Abriendo...";
     btnLogin.disabled = true;
+    document.getElementById('login-error').style.display = 'none';
 
     try {
         const docRef = doc(db, "invitados", code);
@@ -59,26 +69,40 @@ btnLogin.addEventListener('click', async () => {
         if (docSnap.exists()) {
             currentGuestId = code;
             sessionStorage.setItem('guestCode', code);
-            showInvitation(docSnap.data().name); // Usamos .name de tu Firebase
+            showInvitation(docSnap.data().name); 
         } else {
-            errorMsg.style.display = 'block';
-            btnLogin.innerText = "Entrar";
+            document.getElementById('login-error').style.display = 'block';
+            btnLogin.innerText = "Acceder";
             btnLogin.disabled = false;
         }
     } catch (e) {
         console.error(e);
-        alert("Error de conexión.");
+        alert("Error de conexión. Inténtalo de nuevo.");
         btnLogin.disabled = false;
-        btnLogin.innerText = "Entrar";
+        btnLogin.innerText = "Acceder";
     }
 });
 
-// FORMULARIO RSVP
+// --- CONFIRMACIÓN (RSVP) ---
+const asistenciaSelect = document.getElementById('asistencia');
+const extraFields = document.getElementById('extra-fields');
+
+asistenciaSelect.addEventListener('change', (e) => {
+    // Solo muestra los campos extra si dice que SÍ asiste
+    extraFields.style.display = e.target.value === 'si' ? 'block' : 'none';
+});
+
 document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btnSubmit = e.target.querySelector('button');
-    const asiste = document.getElementById('asistencia').value;
-    const notas = document.getElementById('menu').value;
+    const asiste = asistenciaSelect.value;
+    const telefono = document.getElementById('telefono').value;
+    const menu = document.getElementById('menu').value;
+
+    if (!asiste) {
+        alert("Por favor, indícanos si asistirás.");
+        return;
+    }
 
     btnSubmit.disabled = true;
     btnSubmit.innerText = "Enviando...";
@@ -86,14 +110,17 @@ document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
     try {
         const guestRef = doc(db, "invitados", currentGuestId);
         await updateDoc(guestRef, {
-            confirmed: true, // Actualiza el campo confirmed de tu Firebase
+            confirmed: true,
             asiste: asiste === 'si',
-            menu: notas // Guarda las notas en el campo menu
+            telefono: asiste === 'si' ? telefono : "",
+            menu: asiste === 'si' ? menu : "No asiste"
         });
-        document.getElementById('form-message').innerText = "¡Confirmado con éxito!";
+        const formMsg = document.getElementById('form-message');
+        formMsg.innerText = "¡Confirmación guardada con éxito!";
+        formMsg.style.color = "var(--burgundy)";
         btnSubmit.innerText = "✓ Enviado";
     } catch (e) {
-        alert("Error al guardar la confirmación.");
+        alert("Hubo un error al guardar. Por favor, avísanos por teléfono.");
         btnSubmit.disabled = false;
         btnSubmit.innerText = "Confirmar";
     }
