@@ -82,7 +82,7 @@ body {
     z-index: 2;
 }
 
-/* ================= INTEGRACIÓN DE FLORES - AJUSTE MILIMÉTRICO ================= */
+/* ================= INTEGRACIÓN DE FLORES - AJUSTE A LA ESQUINA ================= */
 .sticky-card::before,
 .sticky-card::after {
     content: "";
@@ -99,45 +99,41 @@ body {
 /* --- Tarjetas IMPARES (1, 3, 5...) --- */
 /* Esquina Superior Izquierda: flor derecha */
 .sticky-card:nth-child(odd)::before {
-    top: 0;
-    left: 0;
+    top: -2px; /* Empuja hacia afuera para clavar la esquina */
+    left: -50px; 
     background-image: url("flores_derecha.png");
-    /* Anclamos el tallo a su esquina original (abajo-izq) y giramos 90 grados exactos para que encaje en la esquina superior izquierda */
     background-position: bottom left; 
-    transform: rotate(90deg); 
+    transform: rotate(90deg); /* Orientación original que te gustó */
 }
 
 /* Esquina Inferior Derecha: flor izquierda */
 .sticky-card:nth-child(odd)::after {
-    bottom: 0;
-    right: 0;
+    bottom: -25px; /* Empuja hacia afuera para clavar la esquina */
+    right: -2px;
     background-image: url("flores_izquierda.png");
-    /* El tallo ya está abajo a la derecha, cero rotación, ajuste exacto */
     background-position: bottom right;
-    transform: rotate(0deg); 
+    transform: rotate(0deg); /* Orientación original que te gustó */
 }
 
 /* --- Tarjetas PARES (2, 4, 6...) --- */
 /* Esquina Superior Derecha: flor izquierda */
 .sticky-card:nth-child(even)::before {
-    top: 0;
-    right: 0;
+    top: -2px; /* Empuja hacia afuera para clavar la esquina */
+    right: -50px;
     left: auto;
     background-image: url("flores_izquierda.png");
-    /* Anclamos el tallo (abajo-der) y giramos -90 grados para que el tallo salte exacto a la esquina superior derecha */
     background-position: bottom right;
-    transform: rotate(-90deg); 
+    transform: rotate(-90deg); /* Orientación original que te gustó */
 }
 
 /* Esquina Inferior Izquierda: flor derecha */
 .sticky-card:nth-child(even)::after {
-    bottom: 0;
-    left: 0;
+    bottom: -40px; /* Empuja hacia afuera para clavar la esquina */
+    left: 0px;
     right: auto;
     background-image: url("flores_derecha.png");
-    /* El tallo ya está abajo a la izquierda, cero rotación, ajuste exacto */
     background-position: bottom left;
-    transform: rotate(0deg); 
+    transform: rotate(0deg); /* Orientación original que te gustó */
 }
 
 /* ================= TEXTOS Y SECCIONES ================= */
