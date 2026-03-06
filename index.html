@@ -24,8 +24,8 @@
     </div>
 
     <div id="main-content" style="display: none;">
+        
         <main class="card-stack">
-            
             <section class="card sticky-card card-hero">
                 <p id="welcome-message" class="welcome-text"></p>
                 <h2 class="hero-subtitle">¡Nos Casamos!</h2>
@@ -33,7 +33,7 @@
                 
                 <div class="hero-date">
                     <span class="line"></span>
-                    <p>13 · JUNIO · 2026</p>
+                    <p>SÁBADO 13 · JUNIO · 2026</p>
                     <span class="line"></span>
                 </div>
                 
@@ -41,20 +41,45 @@
                     <p class="countdown-label">El gran día llegará en:</p>
                     <div id="countdown" class="countdown"></div>
                 </div>
-                
-                <div class="scroll-indicator">
-                    <p>Desliza</p>
-                    <div class="arrow-down"></div>
-                </div>
             </section>
 
-            <section class="card sticky-card card-event">
-                <h2 class="section-title">El Evento</h2>
-                <div class="event-details">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #6b1d2a; font-weight: 400;">Ceremonia y Celebración</h3>
-                    <p class="event-time" style="margin-top: 15px; font-weight: 500;">Sábado, 13 de Junio de 2026 a las 18:00h</p>
-                    <p class="event-location" style="margin-top: 10px;">Lugar de la Ceremonia</p>
-                    <p class="event-address" style="opacity: 0.8; font-size: 0.9rem;">Dirección completa de la finca o iglesia</p>
+            <section id="timeline" class="card sticky-card card-timeline">
+                <h2 class="section-title">El Gran Día</h2>
+                <p class="timeline-intro">Sábado, 13 de Junio de 2026</p>
+                
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0c11.3 0 21.3 7.4 24.6 18.2l76.7 255.4 24.6 82.1c3.2 10.7 1 22.3-5.9 31.1S356.9 400 346 400H166c-10.9 0-21.1-5.3-27.9-13.2s-9.1-20.4-5.9-31.1l24.6-82.1L231.4 18.2C234.7 7.4 244.7 0 256 0zM128 448c0-17.7 14.3-32 32-32H352c17.7 0 32 14.3 32 32v64H128V448z" fill="#6b1d2a"/></svg>
+                            </div>
+                            <span class="timeline-time">18:00</span>
+                            <h3 class="timeline-title">Ceremonia</h3>
+                            <p class="timeline-desc">Parroquia de Nuestra Señora del Carmen</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M608 128H448V48a16 16 0 0 0 -16-16H208a16 16 0 0 0 -16 16V128H32A16 16 0 0 0 16 144V464a48 48 0 0 0 48 48h512a48 48 0 0 0 48-48V144a16 16 0 0 0 -16-16zm-336-64h96V128H272V64zm208 64H160V64zm160 336a16 16 0 0 1 -16 16H48a16 16 0 0 1 -16-16V176H608v304z" fill="#6b1d2a"/></svg>
+                            </div>
+                            <span class="timeline-time">20:30</span>
+                            <h3 class="timeline-title">Celebración y Cena</h3>
+                            <p class="timeline-desc">Finca Los Olivos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M223.5 32c-123.5 0-223.5 100-223.5 223.5s100 223.5 223.5 223.5c60.6 0 115.5-24.2 155.8-63.4 5-4.9 5.8-12.6 1.9-18.4s-11.2-8.3-17.7-6c-28.3 9.8-58.5 15-89.9 15-132.3 0-239.5-107.2-239.5-239.5s107.2-239.5 239.5-239.5c31.4 0 61.6 5.2 89.9 15 6.5 2.3 13.8 .2 17.7-6s3.1-13.5-1.9-18.4c-40.3-39.2-95.2-63.4-155.8-63.4zm166.4 121.7c-5.5-5.5-14.4-5.5-19.9 0l-128.8 128.8c-5.5 5.5-5.5 14.4 0 19.9c5.5 5.5 14.4 5.5 19.9 0l128.8-128.8c5.5-5.5 5.5-14.4 0-19.9z" fill="#6b1d2a"/></svg>
+                            </div>
+                            <span class="timeline-time">04:00</span>
+                            <h3 class="timeline-title">Fin de Fiesta</h3>
+                            <p class="timeline-desc">Hasta que el cuerpo aguante</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -92,18 +117,41 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-submit btn-burgundy">Confirmar</button>
+                    <button type="submit" class="btn-submit btn-burgundy">Confirmar Asistencia</button>
                     <p id="form-message" class="success-msg"></p>
                 </form>
 
                 <div class="contact-info">
-                    <p>¿Alguna duda?</p>
-                    <p>Marta: 675 75 39 52 | Joaquín: 650 30 82 99</p>
+                    <p>¿Alguna duda? Contáctanos:</p>
+                    <p>Marta: 675 75 39 52 &nbsp;|&nbsp; Joaquín: 650 30 82 99</p>
                 </div>
             </section>
         </main>
     </div>
 
     <script type="module" src="app.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Creamos un "observador" que vigila cuándo los elementos entran en pantalla
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Cuando el evento entra en pantalla, le añadimos la clase 'active'
+                entry.target.classList.add('active');
+            } else {
+                // Cuando sale de la pantalla, se la quitamos para que el efecto se repita al subir
+                entry.target.classList.remove('active'); 
+            }
+        });
+    }, { 
+        threshold: 0.3 // Se activa cuando el 30% de la tarjeta ya es visible
+    });
+
+    // Le decimos al observador que vigile todos los eventos del timeline
+    document.querySelectorAll('.timeline-item').forEach(item => {
+        observer.observe(item);
+    });
+});
+</script>
 </body>
 </html>

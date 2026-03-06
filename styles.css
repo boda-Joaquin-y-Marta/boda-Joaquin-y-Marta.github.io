@@ -58,22 +58,21 @@ body {
 
 .login-text { font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; margin-bottom: 20px;}
 
-/* ================= EFECTO TARJETAS APILADAS ================= */
+/* ================= SECCIONES (Scroll Normal) ================= */
 .card-stack { position: relative; }
 
 .sticky-card {
-    position: sticky;
-    top: 0;
+    position: relative;
     min-height: 100vh;
     background-color: var(--cream);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
+    padding: 60px 20px;
     box-sizing: border-box;
     box-shadow: 0 -15px 30px rgba(0,0,0,0.08); 
-    border-top: 1px dashed rgba(107, 29, 42, 0.4);
+    border-bottom: 1px dashed rgba(107, 29, 42, 0.4); 
     overflow: hidden; 
 }
 
@@ -82,7 +81,7 @@ body {
     z-index: 2;
 }
 
-/* ================= INTEGRACIÓN DE FLORES - AJUSTE A LA ESQUINA ================= */
+/* ================= FLORES - ESQUINAS (Lógica General) ================= */
 .sticky-card::before,
 .sticky-card::after {
     content: "";
@@ -91,72 +90,120 @@ body {
     height: 250px;
     background-size: contain;
     background-repeat: no-repeat;
-    opacity: 0.8;
+    background-position: center;
+    opacity: 0.8; 
     pointer-events: none;
     z-index: 1;
 }
 
-/* --- Tarjetas IMPARES (1, 3, 5...) --- */
-/* Esquina Superior Izquierda: flor derecha */
-.sticky-card:nth-child(odd)::before {
-    top: -2px; /* Empuja hacia afuera para clavar la esquina */
-    left: -50px; 
-    background-image: url("flores_derecha.png");
-    background-position: bottom left; 
-    transform: rotate(90deg); /* Orientación original que te gustó */
+.sticky-card:nth-child(odd)::before { top: -25px; left: -25px; background-image: url("flores_derecha.png"); background-position: bottom left; transform: rotate(90deg); }
+.sticky-card:nth-child(odd)::after { bottom: -25px; right: -25px; background-image: url("flores_izquierda.png"); background-position: bottom right; transform: rotate(0deg); }
+.sticky-card:nth-child(even)::before { top: -25px; right: -25px; left: auto; background-image: url("flores_izquierda.png"); background-position: bottom right; transform: rotate(-90deg); }
+.sticky-card:nth-child(even)::after { bottom: -25px; left: -25px; right: auto; background-image: url("flores_derecha.png"); background-position: bottom left; transform: rotate(0deg); }
+
+/* --- MAGIA DE FLORES EXCLUSIVA PARA EL TIMELINE --- */
+.card-timeline::after {
+    left: auto !important; right: -25px !important;
+    background-image: url("flores_izquierda.png") !important;
+    background-position: bottom right !important; transform: rotate(0deg) !important;
 }
 
-/* Esquina Inferior Derecha: flor izquierda */
-.sticky-card:nth-child(odd)::after {
-    bottom: -25px; /* Empuja hacia afuera para clavar la esquina */
-    right: -2px;
-    background-image: url("flores_izquierda.png");
-    background-position: bottom right;
-    transform: rotate(0deg); /* Orientación original que te gustó */
+
+/* ================= SECCIÓN TIMELINE (CRONOGRAMA) ================= */
+.card-timeline { padding: 60px 10px; }
+.timeline-intro { font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 50px; color: var(--gold); font-style: italic;}
+
+.timeline-container { position: relative; width: 100%; max-width: 900px; margin: 0 auto; padding: 20px 0;}
+.timeline-item { display: flex; width: 100%; margin-bottom: 50px; position: relative; align-items: center; }
+.timeline-item:last-child { margin-bottom: 0; }
+
+/* 1. LÍNEA CONECTORA (Segmentos animables) */
+.timeline-item::before {
+    content: ''; position: absolute; left: 50%; top: 0; bottom: -50px; width: 2px;
+    background-color: var(--gold); z-index: 1;
+    /* Efecto inicial oculto (encogido hacia arriba) */
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.timeline-item:first-child::before { top: 50%; }
+.timeline-item:last-child::before { bottom: 50%; }
+
+/* 2. LOS CÍRCULOS (Eventos) */
+.timeline-item::after {
+    content: ''; position: absolute; left: 50%; top: 50%;
+    width: 18px; height: 18px;
+    background-color: var(--cream); /* Empiezan color crema (vacíos) */
+    border: 3px solid var(--cream); border-radius: 50%; z-index: 3;
+    box-shadow: 0 0 0 2px var(--burgundy); 
+    /* Efecto inicial un poco más pequeños */
+    transform: translate(-50%, -50%) scale(0.6);
+    transition: all 0.4s ease 0.3s;
 }
 
-/* --- Tarjetas PARES (2, 4, 6...) --- */
-/* Esquina Superior Derecha: flor izquierda */
-.sticky-card:nth-child(even)::before {
-    top: -2px; /* Empuja hacia afuera para clavar la esquina */
-    right: -50px;
-    left: auto;
-    background-image: url("flores_izquierda.png");
-    background-position: bottom right;
-    transform: rotate(-90deg); /* Orientación original que te gustó */
+/* 3. CAJAS DE INFORMACIÓN */
+.timeline-content {
+    width: 42%; background: var(--cream); border: 1px solid var(--burgundy);
+    padding: 25px 20px; border-radius: 8px; position: relative; z-index: 2;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    /* Efecto inicial transparente y un poco bajadas */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease 0.5s;
 }
 
-/* Esquina Inferior Izquierda: flor derecha */
-.sticky-card:nth-child(even)::after {
-    bottom: -40px; /* Empuja hacia afuera para clavar la esquina */
-    left: 0px;
-    right: auto;
-    background-image: url("flores_derecha.png");
-    background-position: bottom left;
-    transform: rotate(0deg); /* Orientación original que te gustó */
+/* --- 🌟 MAGIA DEL SCROLL (Clase Active inyectada por JavaScript) 🌟 --- */
+.timeline-item.active::before {
+    transform: translateX(-50%) scaleY(1); /* La línea baja hasta su sitio */
+}
+.timeline-item.active::after {
+    background-color: var(--gold); /* Se rellenan de oro */
+    transform: translate(-50%, -50%) scale(1); /* Vuelven a su tamaño real */
+}
+.timeline-item.active .timeline-content {
+    opacity: 1; /* Aparece la caja */
+    transform: translateY(0); /* Sube a su sitio original */
 }
 
-/* ================= TEXTOS Y SECCIONES ================= */
+/* --- Lógica en Zig-Zag (Innegociable) --- */
+.timeline-item:nth-child(odd) { justify-content: flex-start; }
+.timeline-item:nth-child(odd) .timeline-content { text-align: right; }
+.timeline-item:nth-child(even) { justify-content: flex-end; }
+.timeline-item:nth-child(even) .timeline-content { text-align: left; }
+
+.timeline-icon { width: 35px; height: 35px; margin-bottom: 15px; display: inline-flex;}
+.timeline-item:nth-child(odd) .timeline-content { display: flex; flex-direction: column; align-items: flex-end; }
+.timeline-item:nth-child(even) .timeline-content { display: flex; flex-direction: column; align-items: flex-start; }
+
+.timeline-time { font-family: var(--font-serif); font-size: 2rem; color: var(--gold); font-style: italic; display: block; line-height: 1; margin-bottom: 8px;}
+.timeline-title { font-family: var(--font-sans); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem; margin: 5px 0; color: var(--burgundy);}
+.timeline-desc { font-size: 0.9rem; opacity: 0.8; margin: 0;}
+
+/* --- Adaptación para Móviles --- */
+@media screen and (max-width: 768px) {
+    .timeline-item { margin-bottom: 30px; }
+    .timeline-item::before { bottom: -30px; }
+    .timeline-content { width: 46%; padding: 12px 10px; }
+    .timeline-icon { width: 22px; height: 22px; margin-bottom: 8px;}
+    .timeline-time { font-size: 1.1rem; margin-bottom: 4px;}
+    .timeline-title { font-size: 0.65rem; letter-spacing: 0.5px;}
+    .timeline-desc { font-size: 0.7rem; line-height: 1.3;}
+    .timeline-item::after { width: 12px; height: 12px; border-width: 2px;}
+}
+
+/* ================= TEXTOS Y SECCIONES (Generales) ================= */
 .welcome-text { font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px;}
 .hero-subtitle { font-family: var(--font-serif); font-size: 2.5rem; font-style: italic; margin: 0 0 30px; color: var(--gold); font-weight: 400;}
 
 .hero-names { font-family: var(--font-serif); font-size: 4rem; line-height: 1.1; margin: 0; font-weight: 400; text-align: center;}
 .ampersand { font-size: 3rem; color: var(--gold); font-style: italic; }
 
-.hero-date {
-    display: flex; align-items: center; justify-content: center; gap: 15px;
-    margin: 40px 0; font-size: 1.1rem; letter-spacing: 2px; font-weight: 500;
-}
+.hero-date { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 40px 0; font-size: 1.1rem; letter-spacing: 2px; font-weight: 500;}
 .hero-date .line { width: 40px; height: 1px; background-color: var(--burgundy); }
 
 .countdown-container { text-align: center; margin-bottom: 40px; }
 .countdown-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;}
 .countdown { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold); font-style: italic;}
-
-.scroll-indicator { position: absolute; bottom: 20px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7;}
-.arrow-down { width: 20px; height: 20px; border-right: 2px solid var(--burgundy); border-bottom: 2px solid var(--burgundy); transform: rotate(45deg); margin: 5px auto 0; animation: bounce 2s infinite;}
-
-@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); } 40% { transform: translateY(-10px) rotate(45deg); } 60% { transform: translateY(-5px) rotate(45deg); } }
 
 .section-title { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; margin-bottom: 30px; text-align: center; color: var(--gold);}
 
