@@ -301,6 +301,21 @@ body {
 
 /* --- Adaptación para Móviles --- */
 @media screen and (max-width: 768px) {
+  /* 🌺 AJUSTE DE FLORES EN MÓVIL 🌺 */
+  .sticky-card::before,
+  .sticky-card::after {
+    width: 120px;
+    height: 120px;
+  }
+
+  .sticky-card:nth-child(odd)::before { top: -15px; left: -15px; }
+  .sticky-card:nth-child(odd)::after { bottom: -15px; right: -15px; }
+  .sticky-card:nth-child(even)::before { top: -15px; right: -15px; }
+  .sticky-card:nth-child(even)::after { bottom: -15px; left: -15px; }
+  
+  .card-timeline::after { right: -15px !important; }
+
+  /* Ajustes del timeline */
   .timeline-item {
     margin-bottom: 30px;
   }
@@ -308,7 +323,6 @@ body {
     bottom: -30px;
   }
   .timeline-content {
-   
     padding: 12px 10px;
   }
   .timeline-icon {
