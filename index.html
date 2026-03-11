@@ -1,157 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enlace Joaquín y Marta</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#6b1d2a">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
-
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#6b1d2a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div id="login-screen" class="login-container">
-        <div class="login-box">
-            <div class="wax-seal">J&M</div>
-            <p class="login-text">Por favor, introduce tu código de invitado:</p>
-            <input type="text" id="guest-code-input" placeholder="Tu código aquí">
-            <button id="btn-login" class="btn-submit btn-gold">Acceder</button>
-            <p id="login-error" class="error-msg" style="display: none;">El código no es correcto.</p>
-        </div>
+      <div class="login-box">
+        <div class="wax-seal">J&M</div>
+        <p class="login-text">Por favor, introduce tu código de invitado:</p>
+        <input type="text" id="guest-code-input" placeholder="Tu código aquí" />
+        <button id="btn-login" class="btn-submit btn-gold">Acceder</button>
+        <p id="login-error" class="error-msg" style="display: none">
+          El código no es correcto.
+        </p>
+      </div>
     </div>
 
-    <div id="main-content" style="display: none;">
-        
-        <main class="card-stack">
-            <section class="card sticky-card card-hero">
-                <p id="welcome-message" class="welcome-text"></p>
-                <h2 class="hero-subtitle">¡Nos Casamos!</h2>
-                <h1 class="hero-names">Joaquín<br><span class="ampersand">&</span><br>Marta</h1>
-                
-                <div class="hero-date">
-                    <span class="line"></span>
-                    <p>SÁBADO 13 · JUNIO · 2026</p>
-                    <span class="line"></span>
-                </div>
-                
-                <div class="countdown-container">
-                    <p class="countdown-label">El gran día llegará en:</p>
-                    <div id="countdown" class="countdown"></div>
-                </div>
-            </section>
+    <div id="main-content" style="display: none">
+      <main class="card-stack">
+        <section class="card sticky-card card-hero">
+          <div class="card-content">
+            <p id="welcome-message" class="welcome-text"></p>
+            <h2 class="hero-subtitle">¡Nos Casamos!</h2>
+            <h1 class="hero-names">
+              Joaquín<br /><span class="ampersand">&</span><br />Marta
+            </h1>
 
-            <section id="timeline" class="card sticky-card card-timeline">
-                <h2 class="section-title">El Gran Día</h2>
-                <p class="timeline-intro">Sábado, 13 de Junio de 2026</p>
-                
-                <div class="timeline-container">
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0c11.3 0 21.3 7.4 24.6 18.2l76.7 255.4 24.6 82.1c3.2 10.7 1 22.3-5.9 31.1S356.9 400 346 400H166c-10.9 0-21.1-5.3-27.9-13.2s-9.1-20.4-5.9-31.1l24.6-82.1L231.4 18.2C234.7 7.4 244.7 0 256 0zM128 448c0-17.7 14.3-32 32-32H352c17.7 0 32 14.3 32 32v64H128V448z" fill="#6b1d2a"/></svg>
-                            </div>
-                            <span class="timeline-time">18:00</span>
-                            <h3 class="timeline-title">Ceremonia</h3>
-                            <p class="timeline-desc">Parroquia de Nuestra Señora del Carmen</p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M608 128H448V48a16 16 0 0 0 -16-16H208a16 16 0 0 0 -16 16V128H32A16 16 0 0 0 16 144V464a48 48 0 0 0 48 48h512a48 48 0 0 0 48-48V144a16 16 0 0 0 -16-16zm-336-64h96V128H272V64zm208 64H160V64zm160 336a16 16 0 0 1 -16 16H48a16 16 0 0 1 -16-16V176H608v304z" fill="#6b1d2a"/></svg>
-                            </div>
-                            <span class="timeline-time">20:30</span>
-                            <h3 class="timeline-title">Celebración y Cena</h3>
-                            <p class="timeline-desc">Finca Los Olivos</p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M223.5 32c-123.5 0-223.5 100-223.5 223.5s100 223.5 223.5 223.5c60.6 0 115.5-24.2 155.8-63.4 5-4.9 5.8-12.6 1.9-18.4s-11.2-8.3-17.7-6c-28.3 9.8-58.5 15-89.9 15-132.3 0-239.5-107.2-239.5-239.5s107.2-239.5 239.5-239.5c31.4 0 61.6 5.2 89.9 15 6.5 2.3 13.8 .2 17.7-6s3.1-13.5-1.9-18.4c-40.3-39.2-95.2-63.4-155.8-63.4zm166.4 121.7c-5.5-5.5-14.4-5.5-19.9 0l-128.8 128.8c-5.5 5.5-5.5 14.4 0 19.9c5.5 5.5 14.4 5.5 19.9 0l128.8-128.8c5.5-5.5 5.5-14.4 0-19.9z" fill="#6b1d2a"/></svg>
-                            </div>
-                            <span class="timeline-time">04:00</span>
-                            <h3 class="timeline-title">Fin de Fiesta</h3>
-                            <p class="timeline-desc">Hasta que el cuerpo aguante</p>
-                        </div>
-                    </div>
+            <div class="hero-date">
+              <span class="line"></span>
+              <p>SÁBADO 13 · JUNIO · 2026</p>
+              <span class="line"></span>
+            </div>
+
+            <div class="countdown-container">
+              <p class="countdown-label">El gran día llegará en:</p>
+              <div id="countdown" class="countdown"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="timeline" class="card sticky-card card-timeline">
+          <div class="card-content">
+            <h2 class="section-title">El Gran Día</h2>
+            <p class="timeline-intro">Sábado, 13 de Junio de 2026</p>
+
+            <div class="timeline-container">
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <div class="timeline-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M256 0c11.3 0 21.3 7.4 24.6 18.2l76.7 255.4 24.6 82.1c3.2 10.7 1 22.3-5.9 31.1S356.9 400 346 400H166c-10.9 0-21.1-5.3-27.9-13.2s-9.1-20.4-5.9-31.1l24.6-82.1L231.4 18.2C234.7 7.4 244.7 0 256 0zM128 448c0-17.7 14.3-32 32-32H352c17.7 0 32 14.3 32 32v64H128V448z"
+                        fill="#6b1d2a"
+                      />
+                    </svg>
+                  </div>
+                  <span class="timeline-time">18:00</span>
+                  <h3 class="timeline-title">Ceremonia</h3>
+                  <p class="timeline-desc">
+                    Parroquia de Nuestra Señora del Carmen
+                  </p>
                 </div>
-            </section>
+              </div>
 
-            <section class="card sticky-card card-dresscode">
-                <h2 class="section-title">Código de Vestimenta</h2>
-                <p class="dresscode-text">Para este día tan especial, os pedimos amablemente que evitéis vestir en tonos blancos y amarillos.</p>
-                
-                <div class="color-circles">
-                    <div class="circle circle-white" title="Evitar Blanco"></div>
-                    <div class="circle circle-yellow" title="Evitar Amarillo"></div>
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <div class="timeline-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 640 512"
+                    >
+                      <path
+                        d="M608 128H448V48a16 16 0 0 0 -16-16H208a16 16 0 0 0 -16 16V128H32A16 16 0 0 0 16 144V464a48 48 0 0 0 48 48h512a48 48 0 0 0 48-48V144a16 16 0 0 0 -16-16zm-336-64h96V128H272V64zm208 64H160V64zm160 336a16 16 0 0 1 -16 16H48a16 16 0 0 1 -16-16V176H608v304z"
+                        fill="#6b1d2a"
+                      />
+                    </svg>
+                  </div>
+                  <span class="timeline-time">20:30</span>
+                  <h3 class="timeline-title">Celebración y Cena</h3>
+                  <p class="timeline-desc">Finca Los Olivos</p>
                 </div>
-                
-                <p class="gracias-text">¡Gracias por vuestra comprensión!</p>
-            </section>
+              </div>
 
-            <section class="card sticky-card card-rsvp">
-                <h2 class="section-title">Asistencia</h2>
-                <p class="deadline">Por favor, confirma antes del <strong>15 de Abril</strong></p>
-                
-                <form id="rsvp-form" class="elegant-form">
-                    <div class="form-group">
-                        <select id="asistencia" required>
-                            <option value="" disabled selected>¿Nos acompañarás?</option>
-                            <option value="si">¡Sí, allí estaré!</option>
-                            <option value="no">Lo siento, no podré asistir</option>
-                        </select>
-                    </div>
-                    
-                    <div id="extra-fields" style="display: none;">
-                        <div class="form-group">
-                            <input type="tel" id="telefono" placeholder="Tu número de teléfono">
-                        </div>
-                        <div class="form-group">
-                            <textarea id="menu" rows="2" placeholder="Alergias, menú especial o notas..."></textarea>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-submit btn-burgundy">Confirmar Asistencia</button>
-                    <p id="form-message" class="success-msg"></p>
-                </form>
-
-                <div class="contact-info">
-                    <p>¿Alguna duda? Contáctanos:</p>
-                    <p>Marta: 675 75 39 52 &nbsp;|&nbsp; Joaquín: 650 30 82 99</p>
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <div class="timeline-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M223.5 32c-123.5 0-223.5 100-223.5 223.5s100 223.5 223.5 223.5c60.6 0 115.5-24.2 155.8-63.4 5-4.9 5.8-12.6 1.9-18.4s-11.2-8.3-17.7-6c-28.3 9.8-58.5 15-89.9 15-132.3 0-239.5-107.2-239.5-239.5s107.2-239.5 239.5-239.5c31.4 0 61.6 5.2 89.9 15 6.5 2.3 13.8 .2 17.7-6s3.1-13.5-1.9-18.4c-40.3-39.2-95.2-63.4-155.8-63.4zm166.4 121.7c-5.5-5.5-14.4-5.5-19.9 0l-128.8 128.8c-5.5 5.5-5.5 14.4 0 19.9c5.5 5.5 14.4 5.5 19.9 0l128.8-128.8c5.5-5.5 5.5-14.4 0-19.9z"
+                        fill="#6b1d2a"
+                      />
+                    </svg>
+                  </div>
+                  <span class="timeline-time">04:00</span>
+                  <h3 class="timeline-title">Fin de Fiesta</h3>
+                  <p class="timeline-desc">Hasta que el cuerpo aguante</p>
                 </div>
-            </section>
-        </main>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card sticky-card card-dresscode">
+          <div class="card-content">
+            <h2 class="section-title">Código de Vestimenta</h2>
+            <p class="dresscode-text">
+              Para este día tan especial, os pedimos amablemente que evitéis
+              vestir en tonos blancos y amarillos.
+            </p>
+
+            <div class="color-circles">
+              <div class="circle circle-white" title="Evitar Blanco"></div>
+              <div class="circle circle-yellow" title="Evitar Amarillo"></div>
+            </div>
+
+            <p class="gracias-text">¡Gracias por vuestra comprensión!</p>
+          </div>
+        </section>
+
+        <section class="card sticky-card card-rsvp">
+          <div class="card-content">
+            <h2 class="section-title">Asistencia</h2>
+            <p class="deadline">
+              Por favor, confirma antes del <strong>15 de Abril</strong>
+            </p>
+
+            <form id="rsvp-form" class="elegant-form">
+              <div class="form-group">
+                <select id="asistencia" required>
+                  <option value="" disabled selected>¿Nos acompañarás?</option>
+                  <option value="si">¡Sí, allí estaré!</option>
+                  <option value="no">Lo siento, no podré asistir</option>
+                </select>
+              </div>
+
+              <div id="extra-fields" style="display: none">
+                <div class="form-group">
+                  <input
+                    type="tel"
+                    id="telefono"
+                    placeholder="Tu número de teléfono"
+                  />
+                </div>
+                <div class="form-group">
+                  <textarea
+                    id="menu"
+                    rows="2"
+                    placeholder="Alergias, menú especial o notas..."
+                  ></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit btn-burgundy">
+                Confirmar Asistencia
+              </button>
+              <p id="form-message" class="success-msg"></p>
+            </form>
+
+            <div class="contact-info">
+              <p>¿Alguna duda? Contáctanos:</p>
+              <p>Marta: 675 75 39 52 &nbsp;|&nbsp; Joaquín: 650 30 82 99</p>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
 
     <script type="module" src="app.js"></script>
     <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // Creamos un "observador" que vigila cuándo los elementos entran en pantalla
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
+      document.addEventListener("DOMContentLoaded", () => {
+        // Creamos un "observador" que vigila cuándo los elementos entran en pantalla
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
                 // Cuando el evento entra en pantalla, le añadimos la clase 'active'
-                entry.target.classList.add('active');
-            } else {
+                entry.target.classList.add("active");
+              } else {
                 // Cuando sale de la pantalla, se la quitamos para que el efecto se repita al subir
-                entry.target.classList.remove('active'); 
-            }
-        });
-    }, { 
-        threshold: 0.3 // Se activa cuando el 30% de la tarjeta ya es visible
-    });
+                entry.target.classList.remove("active");
+              }
+            });
+          },
+          {
+            threshold: 0.3, // Se activa cuando el 30% de la tarjeta ya es visible
+          },
+        );
 
-    // Le decimos al observador que vigile todos los eventos del timeline
-    document.querySelectorAll('.timeline-item').forEach(item => {
-        observer.observe(item);
-    });
-});
-</script>
-</body>
+        // Le decimos al observador que vigile todos los eventos del timeline
+        document.querySelectorAll(".timeline-item").forEach((item) => {
+          observer.observe(item);
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -78,21 +78,36 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 60px 20px;
+  /* El padding se mueve al contenedor interno */
+  padding: 0; 
   box-sizing: border-box;
   box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.08);
   border-bottom: 1px dashed rgba(107, 29, 42, 0.4);
   overflow: hidden;
 }
 
-.sticky-card > * {
+/* Nuevo contenedor interno necesario para las 4 esquinas */
+.card-content {
   position: relative;
-  z-index: 2;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px; /* Padding original de la tarjeta */
+  box-sizing: border-box;
+  z-index: 2; /* Contenido por encima de las flores */
 }
 
-/* ================= FLORES - ESQUINAS (Lógica General) ================= */
+/* ================= LÓGICA DE FLORES - 4 ESQUINAS EN TODAS LAS TARJETAS ================= */
+
+/* Estilos base para los 4 pseudo-elementos */
 .sticky-card::before,
-.sticky-card::after {
+.sticky-card::after,
+.card-content::before,
+.card-content::after {
   content: "";
   position: absolute;
   width: 250px;
@@ -102,51 +117,57 @@ body {
   background-position: center;
   opacity: 0.8;
   pointer-events: none;
-  z-index: 1;
+  z-index: 1; /* Flores por debajo del contenido */
 }
 
-.sticky-card:nth-child(odd)::before {
-  top: -25px;
-  left: -25px;
+/* Definición de Imágenes y Rotaciones Base */
+.sticky-card::before,
+.card-content::after {
   background-image: url("flores_derecha.png");
-  background-position: bottom left;
-  transform: rotate(90deg);
 }
-.sticky-card:nth-child(odd)::after {
-  bottom: -25px;
-  right: -25px;
+
+.sticky-card::after,
+.card-content::before {
   background-image: url("flores_izquierda.png");
-  background-position: bottom right;
-  transform: rotate(0deg);
 }
-.sticky-card:nth-child(even)::before {
+
+/* Posicionamiento y Rotación Específica por Esquina (PC) */
+
+/* 1. Superior Izquierda (Mirando hacia abajo-derecha) */
+.sticky-card::before {
+    transform: rotate(90deg);
+    top: 55px;
+    left: -25px;
+}
+
+/* 2. Superior Derecha (Mirando hacia abajo-izquierda) */
+.sticky-card::after {
   top: -25px;
   right: -25px;
-  left: auto;
-  background-image: url("flores_izquierda.png");
-  background-position: bottom right;
-  transform: rotate(-90deg);
+  transform: rotate(270deg);
 }
-.sticky-card:nth-child(even)::after {
+
+/* 3. Inferior Izquierda (Mirando hacia arriba-derecha) */
+.card-content::after {
   bottom: -25px;
   left: -25px;
-  right: auto;
-  background-image: url("flores_derecha.png");
-  background-position: bottom left;
   transform: rotate(0deg);
 }
 
-/* --- MAGIA DE FLORES EXCLUSIVA PARA EL TIMELINE --- */
+/* 4. Inferior Derecha (Mirando hacia arriba-izquierda) */
+.card-content::before {
+  bottom: -25px;
+  right: -25px;
+  transform: rotate(0deg);
+}
+
+/* Eliminamos anulaciones específicas anteriores */
 .card-timeline::after {
-  left: auto !important;
-  right: -25px !important;
-  background-image: url("flores_izquierda.png") !important;
-  background-position: bottom right !important;
-  transform: rotate(0deg) !important;
+  content: none !important;
 }
 
 /* ================= SECCIÓN TIMELINE (CRONOGRAMA) ================= */
-.card-timeline {
+.card-timeline .card-content {
   padding: 60px 10px;
 }
 .timeline-intro {
@@ -297,56 +318,6 @@ body {
   font-size: 0.9rem;
   opacity: 0.8;
   margin: 0;
-}
-
-/* --- Adaptación para Móviles --- */
-@media screen and (max-width: 768px) {
-  /* 🌺 AJUSTE DE FLORES EN MÓVIL 🌺 */
-  .sticky-card::before,
-  .sticky-card::after {
-    width: 120px;
-    height: 120px;
-  }
-
-  .sticky-card:nth-child(odd)::before { top: -15px; left: -15px; }
-  .sticky-card:nth-child(odd)::after { bottom: -15px; right: -15px; }
-  .sticky-card:nth-child(even)::before { top: -15px; right: -15px; }
-  .sticky-card:nth-child(even)::after { bottom: -15px; left: -15px; }
-  
-  .card-timeline::after { right: -15px !important; }
-
-  /* Ajustes del timeline */
-  .timeline-item {
-    margin-bottom: 30px;
-  }
-  .timeline-item::before {
-    bottom: -30px;
-  }
-  .timeline-content {
-    padding: 12px 10px;
-  }
-  .timeline-icon {
-    width: 22px;
-    height: 22px;
-    margin-bottom: 8px;
-  }
-  .timeline-time {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-  }
-  .timeline-title {
-    font-size: 0.65rem;
-    letter-spacing: 0.5px;
-  }
-  .timeline-desc {
-    font-size: 0.7rem;
-    line-height: 1.3;
-  }
-  .timeline-item::after {
-    width: 12px;
-    height: 12px;
-    border-width: 2px;
-  }
 }
 
 /* ================= TEXTOS Y SECCIONES (Generales) ================= */
@@ -519,4 +490,69 @@ body {
   font-size: 0.9rem;
   opacity: 0.8;
   text-align: center;
+}
+
+/* --- Adaptación para Móviles --- */
+@media screen and (max-width: 768px) {
+  /* 🌺 AJUSTE DE FLORES EN MÓVIL 🌺 */
+  /* Reducimos el tamaño para que no tapen el contenido en zigzag */
+  .sticky-card::before,
+  .sticky-card::after,
+  .card-content::before,
+  .card-content::after {
+    width: 150px;
+    height: 150px;
+  }
+  .hero-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 40px 0;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+  /* Ajuste de márgenes para el tamaño móvil */
+  .sticky-card::before { top: -10px; left: -10px; }
+  .sticky-card::after { top: -10px; right: -10px; }
+  .card-content::after { bottom: -10px; left: -10px; }
+  .card-content::before { bottom: -10px; right: -10px; }
+
+  /* Ajustes del timeline móvil */
+  .timeline-item {
+    margin-bottom: 30px;
+  }
+  .timeline-item::before {
+    bottom: -30px;
+  }
+  .card-timeline .card-content {
+    padding: 60px 10px;
+  }
+  .timeline-content {
+    padding: 12px 10px;
+  }
+  .timeline-icon {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 8px;
+  }
+  .timeline-time {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+  }
+  .timeline-desc {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+  .timeline-item::after {
+    width: 12px;
+    height: 12px;
+    border-width: 2px;
+  }
 }
