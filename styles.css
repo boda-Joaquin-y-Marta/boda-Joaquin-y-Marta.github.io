@@ -34,7 +34,7 @@ body {
   max-width: 380px;
   text-align: center;
   position: relative;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--gold); /* Detalle de borde dorado */
 }
 
 .wax-seal {
@@ -73,7 +73,7 @@ body {
 .sticky-card {
   position: relative;
   min-height: 100vh;
-  background-color: var(--cream);
+  background-color: var(--cream); /* Color crema sólido para el efecto de apilado */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -82,7 +82,7 @@ body {
   padding: 0; 
   box-sizing: border-box;
   box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px dashed rgba(107, 29, 42, 0.4);
+  border-bottom: 1px dashed rgba(107, 29, 42, 0.4); /* Borde punteado estilo tarjeta física */
   overflow: hidden;
 }
 
@@ -110,41 +110,41 @@ body {
 .card-content::after {
   content: "";
   position: absolute;
-  width: 250px;
+  width: 250px; /* Tamaño ajustable de las flores en PC */
   height: 250px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.8;
+  opacity: 0.8; /* Sutil transparencia estilo acuarela */
   pointer-events: none;
   z-index: 1; /* Flores por debajo del contenido */
 }
 
-/* Definición de Imágenes y Rotaciones Base */
-.sticky-card::before,
+/* 🔄 CORRECCIÓN DE GIROS Y POSICIONES SUPERIORES 🔄 */
+
+/* 1. Superior Izquierda (Mirando hacia abajo-derecha) - Usa Imagen 'izquierda' */
+.sticky-card::before {
+  top: 0px;
+  left: -25px;
+  background-image: url("flores_izquierda.png");
+  transform: rotate(180deg);
+}
+
+/* 2. Superior Derecha (Mirando hacia abajo-izquierda) - Usa Imagen 'derecha' */
+.sticky-card::after {
+  top: -25px;
+  right: -25px;
+  background-image: url("flores_derecha.png");
+  transform: rotate(180deg);
+}
+
+/* Definición de Imágenes y Rotaciones Base para Esquinas Inferiores */
 .card-content::after {
   background-image: url("flores_derecha.png");
 }
 
-.sticky-card::after,
 .card-content::before {
   background-image: url("flores_izquierda.png");
-}
-
-/* Posicionamiento y Rotación Específica por Esquina (PC) */
-
-/* 1. Superior Izquierda (Mirando hacia abajo-derecha) */
-.sticky-card::before {
-    transform: rotate(90deg);
-    top: 55px;
-    left: -25px;
-}
-
-/* 2. Superior Derecha (Mirando hacia abajo-izquierda) */
-.sticky-card::after {
-  top: -25px;
-  right: -25px;
-  transform: rotate(270deg);
 }
 
 /* 3. Inferior Izquierda (Mirando hacia arriba-derecha) */
@@ -161,10 +161,8 @@ body {
   transform: rotate(0deg);
 }
 
-/* Eliminamos anulaciones específicas anteriores */
-.card-timeline::after {
-  content: none !important;
-}
+/* ✅ Eliminado el bloqueo del Timeline. Ahora mostrará las 4 esquinas. */
+
 
 /* ================= SECCIÓN TIMELINE (CRONOGRAMA) ================= */
 .card-timeline .card-content {
@@ -492,10 +490,159 @@ body {
   text-align: center;
 }
 
+/* ================= SECCIÓN UBICACIÓN ================= */
+.location-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+  .location-container {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.location-box {
+  text-align: center;
+  flex: 1;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.location-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: #8fa8b5; /* Tono azulado de tu foto */
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.location-name {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: #c48b9f; /* Tono rosado de tu foto */
+  margin-bottom: 15px;
+}
+
+.location-address {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--burgundy);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* El nuevo botón invisible */
+.btn-map-popup {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 5px;
+  transition: transform 0.3s ease;
+}
+
+.btn-map-popup:hover {
+  transform: scale(1.05);
+}
+
+.map-icon {
+  width: 40px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.map-text {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--burgundy);
+  margin-bottom: 5px;
+}
+
+.wavy-line {
+  width: 80%;
+  height: 10px;
+}
+
+/* ================= POP-UP (MODAL) ================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: none; /* Oculto por defecto */
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--cream);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(107, 29, 42, 0.2);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  color: var(--burgundy);
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--burgundy);
+  cursor: pointer;
+}
+
+.modal-body iframe {
+  display: block;
+}
+
 /* --- Adaptación para Móviles --- */
 @media screen and (max-width: 768px) {
   /* 🌺 AJUSTE DE FLORES EN MÓVIL 🌺 */
-  /* Reducimos el tamaño para que no tapen el contenido en zigzag */
+  /* Reducimos el tamaño para asegurar que la lectura en zigzag sea perfecta */
   .sticky-card::before,
   .sticky-card::after,
   .card-content::before,
@@ -503,22 +650,14 @@ body {
     width: 150px;
     height: 150px;
   }
-  .hero-date {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin: 40px 0;
-  font-size: 1rem;
-  letter-spacing: 2px;
-  font-weight: 500;
-}
 
   /* Ajuste de márgenes para el tamaño móvil */
   .sticky-card::before { top: -10px; left: -10px; }
   .sticky-card::after { top: -10px; right: -10px; }
   .card-content::after { bottom: -10px; left: -10px; }
   .card-content::before { bottom: -10px; right: -10px; }
+
+  /* ✅ Eliminado el bloqueo del Timeline en móvil. Ahora mostrará las 4 esquinas. */
 
   /* Ajustes del timeline móvil */
   .timeline-item {
