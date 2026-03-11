@@ -124,16 +124,16 @@ body {
 
 /* 1. Superior Izquierda (Mirando hacia abajo-derecha) - Usa Imagen 'izquierda' */
 .sticky-card::before {
-  top: 0px;
-  left: -25px;
+  top: -60px;
+  left: -40px;
   background-image: url("flores_izquierda.png");
   transform: rotate(180deg);
 }
 
 /* 2. Superior Derecha (Mirando hacia abajo-izquierda) - Usa Imagen 'derecha' */
 .sticky-card::after {
-  top: -25px;
-  right: -25px;
+  top: -60px;
+  right: -40px;
   background-image: url("flores_derecha.png");
   transform: rotate(180deg);
 }
@@ -149,15 +149,15 @@ body {
 
 /* 3. Inferior Izquierda (Mirando hacia arriba-derecha) */
 .card-content::after {
-  bottom: -25px;
-  left: -25px;
+  bottom: -60px;
+  left: -40px;
   transform: rotate(0deg);
 }
 
 /* 4. Inferior Derecha (Mirando hacia arriba-izquierda) */
 .card-content::before {
-  bottom: -25px;
-  right: -25px;
+  bottom: -60px;
+  right: -40px;
   transform: rotate(0deg);
 }
 
@@ -652,10 +652,10 @@ body {
   }
 
   /* Ajuste de márgenes para el tamaño móvil */
-  .sticky-card::before { top: -10px; left: -10px; }
-  .sticky-card::after { top: -10px; right: -10px; }
-  .card-content::after { bottom: -10px; left: -10px; }
-  .card-content::before { bottom: -10px; right: -10px; }
+  .sticky-card::before { top: -43px; left: -30px; }
+  .sticky-card::after { top: -43px; right: -30px; }
+  .card-content::after { bottom: -40px; left: -30px; }
+  .card-content::before { bottom: -40px; right: -30px; }
 
   /* ✅ Eliminado el bloqueo del Timeline en móvil. Ahora mostrará las 4 esquinas. */
 
