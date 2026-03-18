@@ -675,6 +675,11 @@ body {
   letter-spacing: 1px;
   font-weight: 500;
 }
+.hero-date .line {
+  width: 25px;
+  height: 1px;
+  background-color: var(--burgundy);
+}
   /* Ajuste de márgenes para el tamaño móvil */
   .sticky-card::before { top: -43px; left: -30px; }
   .sticky-card::after { top: -43px; right: -30px; }
