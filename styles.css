@@ -73,17 +73,24 @@ body {
 .sticky-card {
   position: relative;
   min-height: 100vh;
-  background-color: var(--cream); /* Color crema sólido para el efecto de apilado */
+  background-color: var(--cream);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* El padding se mueve al contenedor interno */
   padding: 0; 
   box-sizing: border-box;
-  box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px dashed rgba(107, 29, 42, 0.4); /* Borde punteado estilo tarjeta física */
   overflow: hidden;
+  
+  /* 1. Fuera líneas de corte */
+  border-bottom: none; 
+
+  /* 2. MAGIA: Sombras interiores (inset). 
+        Al meter el difuminado "hacia adentro", los bordes de dos tarjetas 
+        consecutivas se funden creando una sola nube de color suave. */
+  box-shadow: 
+    inset 0 60px 80px -30px rgba(107, 29, 42, 0.08),  /* Difuminado por arriba */
+    inset 0 -60px 80px -30px rgba(107, 29, 42, 0.08); /* Difuminado por abajo */
 }
 
 /* Nuevo contenedor interno necesario para las 4 esquinas */
@@ -278,10 +285,18 @@ body {
 }
 
 .timeline-icon {
-  width: 35px;
-  height: 35px;
   margin-bottom: 15px;
-  display: inline-flex;
+  /* Centramos la imagen dentro de la caja */
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+/* 👇 Esta es la clase nueva que controla tu imagen 👇 */
+.icono-boda {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Esto es la magia: evita que la imagen se estire o se achate */
 }
 .timeline-item:nth-child(odd) .timeline-content {
   display: flex;
@@ -385,7 +400,7 @@ body {
   font-family: var(--font-serif);
   font-size: 2.5rem;
   font-weight: 400;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-align: center;
   color: var(--gold);
 }
@@ -650,7 +665,16 @@ body {
     width: 150px;
     height: 150px;
   }
-
+  .hero-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 40px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
   /* Ajuste de márgenes para el tamaño móvil */
   .sticky-card::before { top: -43px; left: -30px; }
   .sticky-card::after { top: -43px; right: -30px; }
@@ -673,10 +697,10 @@ body {
     padding: 12px 10px;
   }
   .timeline-icon {
-    width: 22px;
-    height: 22px;
+    width: 28px; /* Un pelín más grande que antes para que se vea bien la imagen */
+    height: 28px;
     margin-bottom: 8px;
-  }
+  }  
   .timeline-time {
     font-size: 1.1rem;
     margin-bottom: 4px;
