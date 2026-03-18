@@ -34,7 +34,7 @@ body {
   max-width: 380px;
   text-align: center;
   position: relative;
-  border: 1px solid var(--gold); /* Detalle de borde dorado */
+  border: 1px solid var(--gold);
 }
 
 .wax-seal {
@@ -65,13 +65,14 @@ body {
   margin-bottom: 20px;
 }
 
-/* ================= SECCIONES (Scroll Normal) ================= */
+/* ================= SECCIONES (Animación de Apilado Sticky) ================= */
 .card-stack {
   position: relative;
 }
 
 .sticky-card {
-  position: relative;
+  position: sticky; 
+  top: 0;
   min-height: 100vh;
   background-color: var(--cream);
   display: flex;
@@ -81,19 +82,10 @@ body {
   padding: 0; 
   box-sizing: border-box;
   overflow: hidden;
-  
-  /* 1. Fuera líneas de corte */
-  border-bottom: none; 
-
-  /* 2. MAGIA: Sombras interiores (inset). 
-        Al meter el difuminado "hacia adentro", los bordes de dos tarjetas 
-        consecutivas se funden creando una sola nube de color suave. */
-  box-shadow: 
-    inset 0 60px 80px -30px rgba(107, 29, 42, 0.08),  /* Difuminado por arriba */
-    inset 0 -60px 80px -30px rgba(107, 29, 42, 0.08); /* Difuminado por abajo */
+  border-bottom: none;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05); 
 }
 
-/* Nuevo contenedor interno necesario para las 4 esquinas */
 .card-content {
   position: relative;
   width: 100%;
@@ -103,33 +95,94 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 60px 20px; /* Padding original de la tarjeta */
+  padding: 60px 20px; 
   box-sizing: border-box;
-  z-index: 2; /* Contenido por encima de las flores */
+  z-index: 2; 
 }
 
-/* ================= LÓGICA DE FLORES - 4 ESQUINAS EN TODAS LAS TARJETAS ================= */
 
-/* Estilos base para los 4 pseudo-elementos */
+/* ================= 🌟 ANIMACIÓN DE TEXTOS EN CASCADA 🌟 ================= */
+
+/* 1. Estado INICIAL (Oculto) */
+.sticky-card .welcome-text,
+.sticky-card .hero-subtitle,
+.sticky-card .hero-names,
+.sticky-card .hero-date,
+.sticky-card .countdown-container,
+.sticky-card .section-title,
+.sticky-card .timeline-intro,
+.sticky-card .dresscode-text,
+.sticky-card .color-circles,
+.sticky-card .gracias-text,
+.sticky-card .deadline,
+.sticky-card .elegant-form,
+.sticky-card .contact-info,
+.sticky-card .location-container {
+  opacity: 0;
+  transform: translateY(20px); 
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform; 
+}
+
+/* 2. Estado FINAL (Visible) */
+.sticky-card.active .welcome-text,
+.sticky-card.active .hero-subtitle,
+.sticky-card.active .hero-names,
+.sticky-card.active .hero-date,
+.sticky-card.active .countdown-container,
+.sticky-card.active .section-title,
+.sticky-card.active .timeline-intro,
+.sticky-card.active .dresscode-text,
+.sticky-card.active .color-circles,
+.sticky-card.active .gracias-text,
+.sticky-card.active .deadline,
+.sticky-card.active .elegant-form,
+.sticky-card.active .contact-info,
+.sticky-card.active .location-container {
+  opacity: 1;
+  transform: translateY(0); 
+}
+
+/* 3. EFECTO ESCALONADO (Delays) */
+.card-hero .welcome-text        { transition-delay: 0.1s; }
+.card-hero .hero-subtitle       { transition-delay: 0.3s; }
+.card-hero .hero-names          { transition-delay: 0.5s; }
+.card-hero .hero-date           { transition-delay: 0.7s; }
+.card-hero .countdown-container { transition-delay: 0.9s; }
+
+.sticky-card .section-title     { transition-delay: 0.2s; } 
+
+.card-timeline .timeline-intro  { transition-delay: 0.4s; }
+
+.card-dresscode .dresscode-text { transition-delay: 0.4s; }
+.card-dresscode .color-circles  { transition-delay: 0.6s; }
+.card-dresscode .gracias-text   { transition-delay: 0.8s; }
+
+.card-rsvp .deadline            { transition-delay: 0.4s; }
+.card-rsvp .elegant-form        { transition-delay: 0.6s; }
+.card-rsvp .contact-info        { transition-delay: 0.8s; }
+
+.card-location .location-container { transition-delay: 0.4s; }
+
+
+/* ================= LÓGICA DE FLORES ================= */
+
 .sticky-card::before,
 .sticky-card::after,
 .card-content::before,
 .card-content::after {
   content: "";
   position: absolute;
-  width: 250px; /* Tamaño ajustable de las flores en PC */
+  width: 250px; 
   height: 250px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.8; /* Sutil transparencia estilo acuarela */
+  opacity: 0.8; 
   pointer-events: none;
-  z-index: 1; /* Flores por debajo del contenido */
+  z-index: 1; 
 }
 
-/* 🔄 CORRECCIÓN DE GIROS Y POSICIONES SUPERIORES 🔄 */
-
-/* 1. Superior Izquierda (Mirando hacia abajo-derecha) - Usa Imagen 'izquierda' */
 .sticky-card::before {
   top: -60px;
   left: -40px;
@@ -137,7 +190,6 @@ body {
   transform: rotate(180deg);
 }
 
-/* 2. Superior Derecha (Mirando hacia abajo-izquierda) - Usa Imagen 'derecha' */
 .sticky-card::after {
   top: -60px;
   right: -40px;
@@ -145,30 +197,19 @@ body {
   transform: rotate(180deg);
 }
 
-/* Definición de Imágenes y Rotaciones Base para Esquinas Inferiores */
 .card-content::after {
   background-image: url("flores_derecha.png");
-}
-
-.card-content::before {
-  background-image: url("flores_izquierda.png");
-}
-
-/* 3. Inferior Izquierda (Mirando hacia arriba-derecha) */
-.card-content::after {
   bottom: -60px;
   left: -40px;
   transform: rotate(0deg);
 }
 
-/* 4. Inferior Derecha (Mirando hacia arriba-izquierda) */
 .card-content::before {
+  background-image: url("flores_izquierda.png");
   bottom: -60px;
   right: -40px;
   transform: rotate(0deg);
 }
-
-/* ✅ Eliminado el bloqueo del Timeline. Ahora mostrará las 4 esquinas. */
 
 
 /* ================= SECCIÓN TIMELINE (CRONOGRAMA) ================= */
@@ -201,7 +242,6 @@ body {
   margin-bottom: 0;
 }
 
-/* 1. LÍNEA CONECTORA (Segmentos animables) */
 .timeline-item::before {
   content: "";
   position: absolute;
@@ -211,7 +251,6 @@ body {
   width: 2px;
   background-color: var(--gold);
   z-index: 1;
-  /* Efecto inicial oculto (encogido hacia arriba) */
   transform: translateX(-50%) scaleY(0);
   transform-origin: top;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -223,7 +262,6 @@ body {
   bottom: 50%;
 }
 
-/* 2. LOS CÍRCULOS (Eventos) */
 .timeline-item::after {
   content: "";
   position: absolute;
@@ -231,17 +269,15 @@ body {
   top: 50%;
   width: 18px;
   height: 18px;
-  background-color: var(--cream); /* Empiezan color crema (vacíos) */
+  background-color: var(--cream); 
   border: 3px solid var(--cream);
   border-radius: 50%;
   z-index: 3;
   box-shadow: 0 0 0 2px var(--burgundy);
-  /* Efecto inicial un poco más pequeños */
   transform: translate(-50%, -50%) scale(0.6);
   transition: all 0.4s ease 0.3s;
 }
 
-/* 3. CAJAS DE INFORMACIÓN */
 .timeline-content {
   width: 42%;
   background: var(--cream);
@@ -251,62 +287,53 @@ body {
   position: relative;
   z-index: 2;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  /* Efecto inicial transparente y un poco bajadas */
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.6s ease 0.5s;
 }
 
-/* --- 🌟 MAGIA DEL SCROLL (Clase Active inyectada por JavaScript) 🌟 --- */
-.timeline-item.active::before {
-  transform: translateX(-50%) scaleY(1); /* La línea baja hasta su sitio */
+.timeline-item.timeline-active::before {
+  transform: translateX(-50%) scaleY(1); 
 }
-.timeline-item.active::after {
-  background-color: var(--gold); /* Se rellenan de oro */
-  transform: translate(-50%, -50%) scale(1); /* Vuelven a su tamaño real */
+.timeline-item.timeline-active::after {
+  background-color: var(--gold); 
+  transform: translate(-50%, -50%) scale(1); 
 }
-.timeline-item.active .timeline-content {
-  opacity: 1; /* Aparece la caja */
-  transform: translateY(0); /* Sube a su sitio original */
+.timeline-item.timeline-active .timeline-content {
+  opacity: 1; 
+  transform: translateY(0); 
 }
 
-/* --- Lógica en Zig-Zag (Innegociable) --- */
 .timeline-item:nth-child(odd) {
   justify-content: flex-start;
 }
 .timeline-item:nth-child(odd) .timeline-content {
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .timeline-item:nth-child(even) {
   justify-content: flex-end;
 }
 .timeline-item:nth-child(even) .timeline-content {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .timeline-icon {
   margin-bottom: 15px;
-  /* Centramos la imagen dentro de la caja */
   display: flex;
   justify-content: center;
   align-items: center; 
 }
 
-/* 👇 Esta es la clase nueva que controla tu imagen 👇 */
 .icono-boda {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Esto es la magia: evita que la imagen se estire o se achate */
-}
-.timeline-item:nth-child(odd) .timeline-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-.timeline-item:nth-child(even) .timeline-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  object-fit: contain; 
 }
 
 .timeline-time {
@@ -445,13 +472,22 @@ body {
   width: 100%;
   max-width: 350px;
   text-align: center;
+  margin: 0 auto; /* Asegura que el formulario esté bien centrado */
 }
+
+/* Recuperamos el form-group para dar respiro entre los campos */
+.form-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px; 
+}
+
 .elegant-form input,
 .elegant-form select,
 .elegant-form textarea {
   width: 100%;
-  padding: 15px;
-  margin-bottom: 15px;
+  padding: 15px 10px;
+  box-sizing: border-box; /* Evita que el input se salga del ancho en móviles */
   border: none;
   border-bottom: 1px solid var(--burgundy);
   background: transparent;
@@ -459,11 +495,21 @@ body {
   color: var(--burgundy);
   font-size: 1rem;
   outline: none;
+  transition: border-color 0.3s ease; /* Transición suave para el hover/focus */
 }
+
+/* Efecto focus elegante: la línea se vuelve dorada al escribir */
+.elegant-form input:focus,
+.elegant-form select:focus,
+.elegant-form textarea:focus {
+  border-bottom: 2px solid var(--gold);
+}
+
 .elegant-form input::placeholder,
 .elegant-form textarea::placeholder {
   color: rgba(107, 29, 42, 0.5);
 }
+
 .elegant-form select {
   appearance: none;
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%236b1d2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>')
@@ -533,7 +579,7 @@ body {
 .location-title {
   font-family: var(--font-serif);
   font-size: 2.2rem;
-  color: #8fa8b5; /* Tono azulado de tu foto */
+  color: #8fa8b5; 
   font-weight: 400;
   margin-top: 0;
   margin-bottom: 20px;
@@ -544,7 +590,7 @@ body {
   font-weight: 500;
   font-size: 1.1rem;
   letter-spacing: 2px;
-  color: #c48b9f; /* Tono rosado de tu foto */
+  color: #c48b9f; 
   margin-bottom: 15px;
 }
 
@@ -556,7 +602,6 @@ body {
   line-height: 1.5;
 }
 
-/* El nuevo botón invisible */
 .btn-map-popup {
   background: transparent;
   border: none;
@@ -600,7 +645,7 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 9999;
-  display: none; /* Oculto por defecto */
+  display: none; 
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(3px);
@@ -656,8 +701,6 @@ body {
 
 /* --- Adaptación para Móviles --- */
 @media screen and (max-width: 768px) {
-  /* 🌺 AJUSTE DE FLORES EN MÓVIL 🌺 */
-  /* Reducimos el tamaño para asegurar que la lectura en zigzag sea perfecta */
   .sticky-card::before,
   .sticky-card::after,
   .card-content::before,
@@ -680,15 +723,11 @@ body {
   height: 1px;
   background-color: var(--burgundy);
 }
-  /* Ajuste de márgenes para el tamaño móvil */
   .sticky-card::before { top: -43px; left: -30px; }
   .sticky-card::after { top: -43px; right: -30px; }
   .card-content::after { bottom: -40px; left: -30px; }
   .card-content::before { bottom: -40px; right: -30px; }
 
-  /* ✅ Eliminado el bloqueo del Timeline en móvil. Ahora mostrará las 4 esquinas. */
-
-  /* Ajustes del timeline móvil */
   .timeline-item {
     margin-bottom: 30px;
   }
@@ -702,7 +741,7 @@ body {
     padding: 12px 10px;
   }
   .timeline-icon {
-    width: 28px; /* Un pelín más grande que antes para que se vea bien la imagen */
+    width: 28px; 
     height: 28px;
     margin-bottom: 8px;
   }  
