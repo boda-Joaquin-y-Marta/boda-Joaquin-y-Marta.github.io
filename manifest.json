@@ -3,8 +3,8 @@
   "short_name": "Boda J&M",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#fdfaf5",
-  "theme_color": "#d4af37",
+  "background_color": "#f8f4eb",
+  "theme_color": "#cba052",
   "icons": [
     { "src": "icons/logo-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "icons/logo-512.png", "sizes": "512x512", "type": "image/png" }
