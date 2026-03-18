@@ -31,6 +31,7 @@
 
     <div id="main-content" style="display: none">
       <main class="card-stack">
+        
         <section class="card sticky-card card-hero">
           <div class="card-content">
             <p id="welcome-message" class="welcome-text"></p>
@@ -38,13 +39,11 @@
             <h1 class="hero-names">
               Joaquín<br /><span class="ampersand">&</span><br />Marta
             </h1>
-
             <div class="hero-date">
               <span class="line"></span>
               <p>SÁBADO 13 · JUNIO · 2026</p>
               <span class="line"></span>
             </div>
-
             <div class="countdown-container">
               <p class="countdown-label">El gran día llegará en:</p>
               <div id="countdown" class="countdown"></div>
@@ -124,7 +123,7 @@
 
                 <button
                   class="btn-map-popup"
-                  data-title="Ceremonia: Ntra. Sra. del Carmen"
+                  data-title="Ceremonia: Iglesia Santa María"
                   data-map-url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102056.58826465647!2d-2.2746522010741925!3d36.931753420866364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7abe687f71d2d5%3A0xe7d07befd9613a67!2sIglesia%20Santa%20Mar%C3%ADa%20De%20La%20Anunciaci%C3%B3n!5e0!3m2!1ses!2ses!4v1773227416848!5m2!1ses!2ses"
                 >
                   <svg
@@ -169,7 +168,7 @@
 
                 <button
                   class="btn-map-popup"
-                  data-title="Celebración: Finca Los Olivos"
+                  data-title="Celebración: Rte. La Jábega"
                   data-map-url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2683.8388580341166!2d-2.3713179058560496!3d36.87502860359552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7a999bb62ec65b%3A0xad2d4c74a082dbc2!2sRestaurante%20La%20J%C3%A1bega!5e0!3m2!1ses!2ses!4v1773226389085!5m2!1ses!2ses"
                 >
                   <svg
@@ -298,7 +297,9 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // --- OBSERVADOR GENERAL (Efecto Textos en Tarjetas) ---
+        // --- 1. OBSERVADOR DE TARJETAS (Efecto Textos) ---
+        // Usamos root: null para que se guíe por la ventana del navegador. 
+        // Es más seguro y funciona siempre.
         const bloomObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -310,18 +311,17 @@
             });
           },
           {
-            // ¡MAGIA AQUÍ! Cambiado de 0.15 a 0.50.
-            // La animación no se dispara hasta que la tarjeta cubre el 50% de la pantalla.
-            threshold: 0.5,
-          },
+            root: null, 
+            threshold: 0.3, // Se activa cuando asoma un 30%
+          }
         );
 
         document.querySelectorAll(".sticky-card").forEach((card) => {
           bloomObserver.observe(card);
         });
 
-        // --- OBSERVADOR DEL TIMELINE (Zig-Zag) ---
-        const observer = new IntersectionObserver(
+        // --- 2. OBSERVADOR DEL TIMELINE (Animación de la línea temporal) ---
+        const timelineObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
@@ -332,44 +332,60 @@
             });
           },
           {
-            threshold: 0.5,
-          },
+            root: null,
+            rootMargin: "0px 0px -10% 0px", 
+            threshold: 0.2
+          }
         );
 
         document.querySelectorAll(".timeline-item").forEach((item) => {
-          observer.observe(item);
+          timelineObserver.observe(item);
         });
-      });
 
-      // --- LÓGICA DEL POP-UP DEL MAPA ---
-      const mapModal = document.getElementById("map-modal");
-      const mapIframe = document.getElementById("map-iframe");
-      const modalTitle = document.getElementById("modal-title");
-      const closeModalBtn = document.getElementById("close-modal");
-      const mapButtons = document.querySelectorAll(".btn-map-popup");
+        // --- 3. LÓGICA DEL SELECT DEL FORMULARIO (Mostrar campos extra) ---
+        const asistenciaSelect = document.getElementById("asistencia");
+        const extraFields = document.getElementById("extra-fields");
 
-      mapButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const title = btn.getAttribute("data-title");
-          const url = btn.getAttribute("data-map-url");
-
-          modalTitle.textContent = title;
-          mapIframe.src = url;
-          mapModal.classList.add("active");
-        });
-      });
-
-      const closeModal = () => {
-        mapModal.classList.remove("active");
-        mapIframe.src = "";
-      };
-
-      closeModalBtn.addEventListener("click", closeModal);
-
-      mapModal.addEventListener("click", (e) => {
-        if (e.target === mapModal) {
-          closeModal();
+        if (asistenciaSelect && extraFields) {
+          asistenciaSelect.addEventListener("change", (e) => {
+            if (e.target.value === "si") {
+              extraFields.style.display = "block";
+            } else {
+              extraFields.style.display = "none";
+            }
+          });
         }
+
+        // --- 4. LÓGICA DEL POP-UP DEL MAPA ---
+        const mapModal = document.getElementById("map-modal");
+        const mapIframe = document.getElementById("map-iframe");
+        const modalTitle = document.getElementById("modal-title");
+        const closeModalBtn = document.getElementById("close-modal");
+        const mapButtons = document.querySelectorAll(".btn-map-popup");
+
+        mapButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const title = btn.getAttribute("data-title");
+            const url = btn.getAttribute("data-map-url");
+
+            modalTitle.textContent = title;
+            mapIframe.src = url;
+            mapModal.classList.add("active");
+          });
+        });
+
+        const closeModal = () => {
+          mapModal.classList.remove("active");
+          mapIframe.src = "";
+        };
+
+        closeModalBtn.addEventListener("click", closeModal);
+
+        mapModal.addEventListener("click", (e) => {
+          if (e.target === mapModal) {
+            closeModal();
+          }
+        });
       });
     </script>
   </body>
