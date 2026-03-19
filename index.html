@@ -31,7 +31,6 @@
 
     <div id="main-content" style="display: none">
       <main class="card-stack">
-        
         <section class="card sticky-card card-hero">
           <div class="card-content">
             <p id="welcome-message" class="welcome-text"></p>
@@ -112,10 +111,18 @@
             <h2 class="section-title">Dónde y Cuándo</h2>
 
             <div class="location-wrapper">
-              
               <button class="carousel-btn prev-btn" aria-label="Anterior">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path
+                    d="M15 19l-7-7 7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </button>
 
@@ -212,10 +219,19 @@
                   </button>
                 </div>
               </div>
-              
+
               <button class="carousel-btn next-btn" aria-label="Siguiente">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path
+                    d="M9 5l7 7-7 7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </button>
 
@@ -224,7 +240,7 @@
                 <span class="dot"></span>
               </div>
             </div>
-            </div>
+          </div>
         </section>
 
         <div id="map-modal" class="modal-overlay">
@@ -271,7 +287,6 @@
             <p class="deadline">
               Por favor, confirma antes del <strong>15 de Abril</strong>
             </p>
-
             <form id="rsvp-form" class="elegant-form">
               <div class="form-group">
                 <select id="asistencia" required>
@@ -280,20 +295,101 @@
                   <option value="no">Lo siento, no podré asistir</option>
                 </select>
               </div>
+              
+              <div id="modal-extra-fields" style="display: none">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="nombre"
+                    placeholder="1. Nombre y apellidos *"
+                    required
+                  />
+                </div>
 
-              <div id="extra-fields" style="display: none">
                 <div class="form-group">
                   <input
                     type="tel"
-                    id="telefono"
-                    placeholder="Tu número de teléfono"
+                    name="telefono"
+                    placeholder="2. Teléfono de contacto *"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <select name="alergias_sn" required>
+                    <option value="" disabled selected>
+                      3. ¿Tienes alergias o intolerancias? *
+                    </option>
+                    <option value="No">No</option>
+                    <option value="Sí">Sí</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="alergias_detalle"
+                    placeholder="En caso afirmativo, indica cuáles"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <select name="menu_sn" required>
+                    <option value="" disabled selected>
+                      4. ¿Necesitas menú especial? *
+                    </option>
+                    <option value="No">No</option>
+                    <option value="Sí">Sí</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="menu_detalle"
+                    placeholder="Si es sí, indica cuál (vegano, vegetariano...)"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <select name="ninos_sn" required>
+                    <option value="" disabled selected>
+                      5. ¿Vendrás con niños? *
+                    </option>
+                    <option value="No">No</option>
+                    <option value="Sí">Sí</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="ninos_detalle"
+                    placeholder="Si es sí, nombre y número de niños"
                   />
                 </div>
                 <div class="form-group">
+                  <select name="ninos_trona">
+                    <option value="" disabled selected>
+                      ¿Necesitas trona para los niños?
+                    </option>
+                    <option value="No">No</option>
+                    <option value="Sí">Sí</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <select name="transporte" required>
+                    <option value="" disabled selected>
+                      6. ¿Vas a utilizar el transporte facilitado? *
+                    </option>
+                    <option value="No">No</option>
+                    <option value="Sí">Sí</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
                   <textarea
-                    id="menu"
+                    name="otros_datos"
                     rows="2"
-                    placeholder="Alergias, menú especial o notas..."
+                    placeholder="7. Otros datos que debamos saber..."
                   ></textarea>
                 </div>
               </div>
@@ -314,134 +410,9 @@
     </div>
 
     <script type="module" src="app.js"></script>
-
+ 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // --- 1. OBSERVADOR DE TARJETAS (Efecto Textos) ---
-        const bloomObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("active");
-              } else {
-                entry.target.classList.remove("active");
-              }
-            });
-          },
-          {
-            root: null, 
-            threshold: 0.3, 
-          }
-        );
-
-        document.querySelectorAll(".sticky-card").forEach((card) => {
-          bloomObserver.observe(card);
-        });
-
-        // --- 2. OBSERVADOR DEL TIMELINE ---
-        const timelineObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("timeline-active");
-              } else {
-                entry.target.classList.remove("timeline-active");
-              }
-            });
-          },
-          {
-            root: null,
-            rootMargin: "0px 0px -10% 0px", 
-            threshold: 0.2
-          }
-        );
-
-        document.querySelectorAll(".timeline-item").forEach((item) => {
-          timelineObserver.observe(item);
-        });
-
-        // --- 3. LÓGICA DEL SELECT DEL FORMULARIO ---
-        const asistenciaSelect = document.getElementById("asistencia");
-        const extraFields = document.getElementById("extra-fields");
-
-        if (asistenciaSelect && extraFields) {
-          asistenciaSelect.addEventListener("change", (e) => {
-            if (e.target.value === "si") {
-              extraFields.style.display = "block";
-            } else {
-              extraFields.style.display = "none";
-            }
-          });
-        }
-
-        // --- 4. LÓGICA DEL POP-UP DEL MAPA ---
-        const mapModal = document.getElementById("map-modal");
-        const mapIframe = document.getElementById("map-iframe");
-        const modalTitle = document.getElementById("modal-title");
-        const closeModalBtn = document.getElementById("close-modal");
-        const mapButtons = document.querySelectorAll(".btn-map-popup");
-
-        mapButtons.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const title = btn.getAttribute("data-title");
-            const url = btn.getAttribute("data-map-url");
-
-            modalTitle.textContent = title;
-            mapIframe.src = url;
-            mapModal.classList.add("active");
-          });
-        });
-
-        const closeModal = () => {
-          mapModal.classList.remove("active");
-          mapIframe.src = "";
-        };
-
-        closeModalBtn.addEventListener("click", closeModal);
-        mapModal.addEventListener("click", (e) => {
-          if (e.target === mapModal) {
-            closeModal();
-          }
-        });
-
-        // --- 5. LÓGICA DEL CARRUSEL DE UBICACIÓN (Flechas y Dots) ---
-        const locationContainer = document.querySelector('.location-container');
-        const locationBoxes = document.querySelectorAll('.location-box');
-        const dots = document.querySelectorAll('.dot');
-        const prevBtn = document.querySelector('.prev-btn');
-        const nextBtn = document.querySelector('.next-btn');
-
-        if (locationContainer && dots.length > 0) {
-          
-          // Observador para los puntitos
-          const dotObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                const index = Array.from(locationBoxes).indexOf(entry.target);
-                dots.forEach(dot => dot.classList.remove('active'));
-                if (dots[index]) dots[index].classList.add('active');
-              }
-            });
-          }, {
-            root: locationContainer,
-            threshold: 0.6 
-          });
-
-          locationBoxes.forEach(box => dotObserver.observe(box));
-
-          // Lógica para las flechas de navegación
-          if (prevBtn && nextBtn) {
-            nextBtn.addEventListener('click', () => {
-              locationContainer.scrollBy({ left: locationContainer.clientWidth, behavior: 'smooth' });
-            });
-
-            prevBtn.addEventListener('click', () => {
-              locationContainer.scrollBy({ left: -locationContainer.clientWidth, behavior: 'smooth' });
-            });
-          }
-        }
-
-      });
+           
     </script>
   </body>
 </html>
