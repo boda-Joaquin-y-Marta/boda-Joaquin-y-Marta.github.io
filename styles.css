@@ -1,5 +1,5 @@
 :root {
-  --burgundy: #6b1d2a;
+  --burgundy: #6c1e2b;
   --cream: #f8f4eb;
   --gold: #cba052;
   --font-serif: "Playfair Display", serif;
@@ -22,25 +22,45 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--burgundy);
-  background-image: radial-gradient(circle, #8a2536 0%, #6b1d2a 100%);
+  background-color: #6b1d2a; 
+  overflow: hidden; 
+  position: relative;
 }
 
+/* 🌟 LA SOLAPA SUPERIOR (Anclada a las esquinas de la pantalla) */
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* El 50% es el centro de la pantalla. Le restamos unos 60px para que 
+     la punta coincida milimétricamente con la altura de tu sello */
+  height: calc(50% - 60px); 
+  background-color: #7a2231;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  z-index: 1; /* Por detrás de la caja blanca */
+  filter: drop-shadow(0 12px 15px rgba(0,0,0,0.5));
+}
+
+/* TU CAJA BLANCA */
 .login-box {
   background: var(--cream);
   padding: 50px 30px 40px;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   width: 85%;
   max-width: 380px;
   text-align: center;
   position: relative;
   border: 1px solid var(--gold);
+  z-index: 10;
 }
 
+/* TU SELLO */
 .wax-seal {
   position: absolute;
-  top: -30px;
+  top: -30px; 
   left: 50%;
   transform: translateX(-50%);
   background: var(--gold);
@@ -55,15 +75,18 @@ body {
   font-size: 1.5rem;
   box-shadow:
     inset 0 0 10px rgba(0, 0, 0, 0.2),
-    0 5px 10px rgba(0, 0, 0, 0.3);
+    0 8px 15px rgba(0, 0, 0, 0.4);
   border: 2px solid #e1b86e;
+  z-index: 20; 
 }
 
+/* TEXTOS Y FORMULARIO (Se mantienen igual) */
 .login-text {
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.1rem;
   margin-bottom: 20px;
+  color: var(--burgundy);
 }
 
 /* ================= SECCIONES (Animación Scroll Snap / Tipo App) ================= */
@@ -85,15 +108,16 @@ body {
 .sticky-card {
   /* 🌟 CLAVE 3: Tarjetas relativas (adiós al sticky) de alto exacto */
   position: relative; 
-  height: 100vh; 
+  min-height: 100vh; /* Permite que ocupe la pantalla como mínimo */
+  height: auto;      /* Permite que crezca hacia abajo si hay muchos eventos */
   width: 100%;
   
   /* Hacemos que la pantalla encaje aquí al deslizar */
   scroll-snap-align: start;
   scroll-snap-stop: always;
   
-  /* 🌟 CLAVE 4: Permite hacer scroll por dentro si la tarjeta es muy larga */
-  overflow-y: auto; 
+  /* 🌟 CLAVE 4: Elimina el scroll interno conflictivo */
+  overflow-y: visible; 
   overflow-x: hidden;
   
   background-color: var(--cream);
@@ -235,18 +259,19 @@ body {
 }
 
 
-/* ================= SECCIÓN TIMELINE (CRONOGRAMA) ================= */
+/* ================= SECCIÓN TIMELINE (CRONOGRAMA EN ZIGZAG) ================= */
 .card-timeline .card-content {
-  padding: 60px 10px;
-  /* 🌟 CLAVE 5: Esto hace que el timeline empiece arriba y se pueda bajar, evitando que se corte el inicio */
+  padding: 60px 10px 140px 10px; /* 🌟 Colchón para las flores en PC */
   justify-content: flex-start; 
 }
+
 .timeline-intro {
   font-family: var(--font-serif);
   font-size: 1.3rem;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   color: var(--gold);
   font-style: italic;
+  text-align: center;
 }
 
 .timeline-container {
@@ -254,12 +279,27 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 10px 0;
 }
+
+/* 📏 La línea vertical dorada que une los eventos (CENTRO) */
+.timeline-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--gold);
+  z-index: 1;
+  transform: translateX(-50%);
+}
+
+/* 📦 Cada bloque de evento */
 .timeline-item {
   display: flex;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   position: relative;
   align-items: center;
 }
@@ -267,26 +307,7 @@ body {
   margin-bottom: 0;
 }
 
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: -50px;
-  width: 2px;
-  background-color: var(--gold);
-  z-index: 1;
-  transform: translateX(-50%) scaleY(0);
-  transform-origin: top;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.timeline-item:first-child::before {
-  top: 50%;
-}
-.timeline-item:last-child::before {
-  bottom: 50%;
-}
-
+/* 🎯 El nodo central (Puntito en la línea) */
 .timeline-item::after {
   content: "";
   position: absolute;
@@ -299,36 +320,31 @@ body {
   border-radius: 50%;
   z-index: 3;
   box-shadow: 0 0 0 2px var(--burgundy);
-  transform: translate(-50%, -50%) scale(0.6);
-  transition: all 0.4s ease 0.3s;
+  transform: translate(-50%, -50%);
 }
 
+/* 📦 Contenedor blanco del texto (Compacto) */
 .timeline-content {
   width: 42%;
   background: var(--cream);
   border: 1px solid var(--burgundy);
-  padding: 25px 20px;
+  padding: 15px 10px; 
   border-radius: 8px;
   position: relative;
   z-index: 2;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.6s ease 0.5s;
+  transition: all 0.6s ease;
 }
 
-.timeline-item.timeline-active::before {
-  transform: translateX(-50%) scaleY(1); 
-}
-.timeline-item.timeline-active::after {
-  background-color: var(--gold); 
-  transform: translate(-50%, -50%) scale(1); 
-}
 .timeline-item.timeline-active .timeline-content {
   opacity: 1; 
   transform: translateY(0); 
 }
 
+/* Ítems impares (1, 3, 5) */
 .timeline-item:nth-child(odd) {
   justify-content: flex-start;
 }
@@ -338,6 +354,8 @@ body {
   flex-direction: column;
   align-items: flex-end;
 }
+
+/* Ítems pares (2, 4) */
 .timeline-item:nth-child(even) {
   justify-content: flex-end;
 }
@@ -348,41 +366,58 @@ body {
   align-items: flex-start;
 }
 
+/* 🎨 Estilo de Iconos y Textos (Compactos) */
 .timeline-icon {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center; 
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: white;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
 .icono-boda {
-  width: 100%;
-  height: 100%;
+  width: 30px; 
+  height: 30px;
   object-fit: contain; 
+  filter: sepia(1) saturate(5) hue-rotate(-50deg) brightness(0.7);
+}
+
+.timeline-icon svg {
+  width: 30px;
+  height: 30px;
+}
+.fin-de-fiesta-path {
+  fill: var(--burgundy);
 }
 
 .timeline-time {
   font-family: var(--font-serif);
-  font-size: 2rem;
+  font-size: 1.6rem; 
   color: var(--gold);
   font-style: italic;
   display: block;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .timeline-title {
   font-family: var(--font-sans);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 0.95rem;
+  font-size: 0.85rem; 
   margin: 5px 0;
   color: var(--burgundy);
 }
 .timeline-desc {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   opacity: 0.8;
   margin: 0;
+  line-height: 1.4;
 }
 
 /* ================= TEXTOS Y SECCIONES (Generales) ================= */
@@ -662,25 +697,6 @@ body {
   transform: scale(1.1);
 }
 
-@media screen and (min-width: 768px) {
-  .location-wrapper {
-    padding: 0; /* En PC quitamos el margen porque mostramos ambas */
-  }
-  .location-container {
-    justify-content: center;
-    overflow-x: visible; 
-    scroll-snap-type: none;
-  }
-  .location-box {
-    flex: 1; 
-    background: transparent;
-    box-shadow: none;
-  }
-  .carousel-btn, .carousel-dots {
-    display: none; 
-  }
-}
-
 .location-title {
   font-family: var(--font-serif);
   font-size: 2.2rem;
@@ -736,9 +752,40 @@ body {
   margin-bottom: 5px;
 }
 
-.wavy-line {
-  width: 80%;
-  height: 10px;
+/* =======================================================
+   ADAPTACIÓN DE CARRUSELES PARA PANTALLAS GRANDES (PC/TABLET)
+   ======================================================= */
+@media screen and (min-width: 768px) {
+  .location-wrapper {
+    padding: 0; /* En PC quitamos el margen porque mostramos ambas */
+  }
+  
+  /* Ocultar botones y puntos */
+  .carousel-btn, 
+  .carousel-dots {
+    display: none !important; 
+  }
+  
+  /* Quitar comportamiento carrusel y poner cajas en fila */
+  .location-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 30px !important;
+    overflow: visible !important; 
+    scroll-snap-type: none;
+  }
+  
+  /* Mantener el diseño de la caja, ajustando el ancho */
+  .location-box {
+    flex: 1 !important; 
+    max-width: 400px !important;
+    margin: 0 !important;
+    height: auto !important;
+    /* Mantenemos el fondo blanco y la sombra igual que en móvil */
+    background: white !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+  }
 }
 
 /* ================= POP-UP (MODAL) ================= */
@@ -804,7 +851,9 @@ body {
   display: block;
 }
 
-/* --- Adaptación para Móviles --- */
+/* =======================================================
+   --- Adaptación para Móviles --- 
+   ======================================================= */
 @media screen and (max-width: 768px) {
   .sticky-card::before,
   .sticky-card::after,
@@ -814,62 +863,179 @@ body {
     height: 150px;
   }
   .hero-date {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin: 40px 0;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  font-weight: 500;
-}
-.hero-date .line {
-  width: 25px;
-  height: 1px;
-  background-color: var(--burgundy);
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 40px 0;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+  .hero-date .line {
+    width: 25px;
+    height: 1px;
+    background-color: var(--burgundy);
+  }
   .sticky-card::before { top: -43px; left: -30px; }
   .sticky-card::after { top: -43px; right: -30px; }
   .card-content::after { bottom: -40px; left: -30px; }
   .card-content::before { bottom: -40px; right: -30px; }
 
-  .timeline-item {
-    margin-bottom: 30px;
-  }
-  .timeline-item::before {
-    bottom: -30px;
-  }
+  /* 🌟 Ajustes del Timeline para móvil (MANTENEMOS ZIGZAG) */
   .card-timeline .card-content {
-    padding: 60px 10px;
+    padding: 60px 10px 100px 10px; /* Colchón para las flores en Móvil */
   }
-  .timeline-content {
-    padding: 12px 10px;
+  
+  .timeline-item {
+    margin-bottom: 25px;
   }
-  .timeline-icon {
-    width: 28px; 
-    height: 28px;
-    margin-bottom: 8px;
-  }  
-  .timeline-time {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-  }
-  .timeline-title {
-    font-size: 0.65rem;
-    letter-spacing: 0.5px;
-  }
-  .timeline-desc {
-    font-size: 0.7rem;
-    line-height: 1.3;
-  }
+  
+  /* Hacemos el punto central un poco más pequeño para móvil */
   .timeline-item::after {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-width: 2px;
   }
   
+  /* Cajas de texto más compactas pero sin ocupar todo el ancho */
+  .timeline-content {
+    width: 45% !important; /* Aprovecha el espacio de cada lado al máximo */
+    padding: 10px !important;
+  }
+  
+  /* Mantenemos explícitamente la alineación a los lados */
+  .timeline-item:nth-child(odd) .timeline-content {
+    text-align: right !important;
+    align-items: flex-end !important;
+  }
+  
+  .timeline-item:nth-child(even) .timeline-content {
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+  
+  /* Iconos y textos más pequeños para que encajen bien en móvil */
+  .timeline-icon {
+    width: 36px; 
+    height: 36px;
+    margin-bottom: 8px;
+  }  
+  
+  .icono-boda,
+  .timeline-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .timeline-time {
+    font-size: 1.1rem;
+  }
+  
+  .timeline-title {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+  
+  .timeline-desc {
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
+  
   .location-box {
-    /* Mantenemos el 100% de ancho en móvil y ajustamos el relleno interior */
     padding: 15px 10px;
   }
+}
+
+/* ================= RSVP MODAL SHEET (NUEVO) ================= */
+
+/* Hacemos que el modal de asistencia sea un "Bottom Sheet" en móviles */
+.rsvp-sheet {
+  /* Anula el centrado del overlay para pegarlo abajo */
+  align-self: flex-end; 
+  width: 100%;
+  max-width: 100%;
+  border-radius: 20px 20px 0 0; /* Bordes redondeados solo arriba */
+  animation: slideUpSheet 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Espaciado extra abajo para móviles con la barra de inicio (iPhone) */
+  padding-bottom: env(safe-area-inset-bottom, 20px); 
+}
+
+/* Animación de deslizamiento desde abajo */
+@keyframes slideUpSheet {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajustes del cuerpo del modal para el formulario */
+.rsvp-sheet .modal-body {
+  padding: 20px 30px 40px;
+  max-height: 85vh; /* Evita que el modal sea más alto que la pantalla */
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.rsvp-sheet .modal-body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ajustes específicos para las etiquetas del formulario extra */
+.rsvp-sheet .form-group label {
+  display: block;
+  text-align: left;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  margin-bottom: 5px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* Opciones de Menú / Radio Buttons */
+.rsvp-sheet .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.rsvp-sheet .radio-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--burgundy);
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.rsvp-sheet input[type="radio"] {
+  /* Reseteamos el estilo del input para los radio buttons */
+  width: auto;
+  margin: 0;
+  accent-color: var(--gold);
+}
+
+/* En ordenadores (pantallas grandes), lo devolvemos a formato Modal centrado */
+@media screen and (min-width: 768px) {
+  .rsvp-sheet {
+    align-self: center; /* Vuelve a centrarse verticalmente */
+    max-width: 500px;
+    border-radius: 8px; /* Bordes redondeados en todas las esquinas */
+    animation: modalFadeIn 0.3s ease; /* Usa tu animación original de fade */
+    padding-bottom: 0;
+  }
+}
+
+/* Campos condicionales del formulario */
+.hidden-field {
+  display: none;
+  margin-top: 10px;
+  animation: modalFadeIn 0.3s ease;
+}
+.hidden-field.active {
+  display: block;
 }

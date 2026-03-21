@@ -18,7 +18,7 @@ let currentGuestId = null;
 
 // --- CUENTA ATRÁS ---
 const countdownElement = document.getElementById('countdown');
-const weddingDate = new Date('June 13, 2026 18:00:00').getTime();
+const weddingDate = new Date('June 13, 2026 12:00:00').getTime(); // Lo he ajustado a las 12:00 que es tu ceremonia
 
 setInterval(() => {
     const now = new Date().getTime();
@@ -38,7 +38,7 @@ const showInvitation = (nombre) => {
     document.getElementById('welcome-message').innerText = `BIENVENIDO/A, ${nombre}`;
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
-    window.scrollTo(0, 0); // Para empezar siempre arriba
+    window.scrollTo(0, 0); 
 };
 
 window.addEventListener('load', async () => {
@@ -84,44 +84,100 @@ btnLogin.addEventListener('click', async () => {
 });
 
 // --- CONFIRMACIÓN (RSVP) ---
-const asistenciaSelect = document.getElementById('asistencia');
-const extraFields = document.getElementById('extra-fields');
 
-asistenciaSelect.addEventListener('change', (e) => {
-    // Solo muestra los campos extra si dice que SÍ asiste
-    extraFields.style.display = e.target.value === 'si' ? 'block' : 'none';
-});
-
+// 1. Manejo del "NO asisto"
 document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btnSubmit = e.target.querySelector('button');
-    const asiste = asistenciaSelect.value;
-    const telefono = document.getElementById('telefono').value;
-    const menu = document.getElementById('menu').value;
-
-    if (!asiste) {
-        alert("Por favor, indícanos si asistirás.");
-        return;
-    }
-
-    btnSubmit.disabled = true;
-    btnSubmit.innerText = "Enviando...";
+    const btnSubmitMain = document.getElementById('btn-submit-main');
+    
+    btnSubmitMain.disabled = true;
+    btnSubmitMain.innerText = "Enviando...";
 
     try {
         const guestRef = doc(db, "invitados", currentGuestId);
+        
+        // Solo actualizamos lo necesario si no vienen
         await updateDoc(guestRef, {
             confirmed: true,
-            asiste: asiste === 'si',
-            telefono: asiste === 'si' ? telefono : "",
-            menu: asiste === 'si' ? menu : "No asiste"
+            asiste: false
         });
-        const formMsg = document.getElementById('form-message');
-        formMsg.innerText = "¡Confirmación guardada con éxito!";
+        
+        const formMsg = document.getElementById('form-message-main');
+        formMsg.innerText = "Lamentamos que no puedas venir. ¡Gracias por avisar!";
         formMsg.style.color = "var(--burgundy)";
-        btnSubmit.innerText = "✓ Enviado";
+        btnSubmitMain.style.display = "none";
     } catch (e) {
         alert("Hubo un error al guardar. Por favor, avísanos por teléfono.");
-        btnSubmit.disabled = false;
-        btnSubmit.innerText = "Confirmar";
+        btnSubmitMain.disabled = false;
+        btnSubmitMain.innerText = "Confirmar que no asistes";
+    }
+});
+
+// 2. Manejo del "SÍ asisto" (Ajustado EXACTAMENTE a tu Firebase)
+document.getElementById('rsvp-sheet-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btnSubmitSheet = document.getElementById('btn-submit-sheet');
+    
+    // 1. Recogida de textos básicos
+    const nombreCompleto = document.getElementById('nombre-apellidos')?.value || "";
+    const telefono = document.getElementById('telefono')?.value || "";
+    let otrosDatos = document.getElementById('otros_datos')?.value || "";
+    
+    // 2. Booleanos y campos condicionales
+    const tieneAlergias = document.querySelector('input[name="alergias_radio"]:checked')?.value === "Si";
+    const alergiasDesc = tieneAlergias ? (document.getElementById('alergias_desc')?.value || "") : "";
+
+    const necesitaMenu = document.querySelector('input[name="menu_radio"]:checked')?.value === "Si";
+    const menuDesc = necesitaMenu ? (document.getElementById('menu_desc')?.value || "") : "";
+
+    const vieneConNinos = document.querySelector('input[name="ninos_radio"]:checked')?.value === "Si";
+    const ninosDatosText = vieneConNinos ? (document.getElementById('ninos_datos')?.value || "Sin especificar") : "";
+    
+    const necesitaTrona = vieneConNinos && (document.querySelector('input[name="trona_radio"]:checked')?.value === "Si");
+
+    const usaTransporte = document.querySelector('input[name="transporte_radio"]:checked')?.value === "Si";
+
+    // Unimos los datos de los niños al campo "otros" para no perderlos
+    if (vieneConNinos && ninosDatosText !== "") {
+        otrosDatos = `Datos niños: ${ninosDatosText}. ` + otrosDatos;
+    }
+
+    btnSubmitSheet.disabled = true;
+    btnSubmitSheet.innerText = "Guardando...";
+
+    try {
+        const guestRef = doc(db, "invitados", currentGuestId);
+        
+        // Enviamos los datos mapeados EXACTAMENTE a las keys de tu BD
+        await updateDoc(guestRef, {
+            confirmed: true,
+            asiste: true,
+            name: nombreCompleto,      // Usamos 'name' para el input completo
+            telefono: telefono,
+            alergias: alergiasDesc,    // String (vacío si es no)
+            menuEspecial: necesitaMenu,// Booleano
+            menu: menuDesc,            // String con el tipo de menú
+            ninos: vieneConNinos,      // Booleano
+            trona: necesitaTrona,      // Booleano
+            transporte: usaTransporte, // Booleano
+            otros: otrosDatos          // String
+            
+            // Nota: No tocamos "familia", "categoriaCivil" ni "apeliidos" 
+            // para que se mantenga lo que tú configures manualmente.
+        });
+        
+        btnSubmitSheet.innerText = "✓ Enviado con éxito";
+        btnSubmitSheet.style.backgroundColor = "#4CAF50"; 
+        
+        setTimeout(() => {
+            document.getElementById('rsvp-modal').classList.remove('active');
+            document.getElementById('form-message-main').innerText = "¡Qué ilusión! Hemos guardado tu confirmación.";
+        }, 1500);
+
+    } catch (error) {
+        console.error("Error al guardar en Firebase:", error);
+        alert("Hubo un error al guardar. Por favor, avísanos por teléfono.");
+        btnSubmitSheet.disabled = false;
+        btnSubmitSheet.innerText = "Confirmar Asistencia";
     }
 });
