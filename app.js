@@ -134,51 +134,53 @@ document.addEventListener("DOMContentLoaded", () => {
     timelineObserver.observe(item);
   });
 
-  // --- CONFIRMACIÓN (RSVP) ---
+ // --- CONFIRMACIÓN (RSVP PRINCIPAL - SOLO PARA "NO ASISTE") ---
+  const rsvpForm = document.getElementById("rsvp-form");
   const asistenciaSelect = document.getElementById("asistencia");
-  const extraFields = document.getElementById("extra-fields");
 
-  asistenciaSelect.addEventListener("change", (e) => {
-    // Solo muestra los campos extra si dice que SÍ asiste
-    extraFields.style.display = e.target.value === "si" ? "block" : "none";
-  });
+  if (rsvpForm) {
+    rsvpForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btnSubmitMain = document.getElementById("btn-submit-main");
+      
+      // Si por algún motivo el valor no es "no", detenemos esto (el "Sí" va por el Modal)
+      if (asistenciaSelect.value !== "no") return;
 
-  document.getElementById("rsvp-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const btnSubmit = e.target.querySelector("button");
-    const asiste = asistenciaSelect.value;
-    const telefono = document.getElementById("telefono").value;
-    const menu = document.getElementById("menu").value;
+      btnSubmitMain.disabled = true;
+      btnSubmitMain.innerText = "Guardando...";
 
-    if (!asiste) {
-      alert("Por favor, indícanos si asistirás.");
-      return;
-    }
+      try {
+        const guestRef = doc(db, "invitados", currentGuestId);
+        
+        // Guardamos en Firebase rellenando todo con valores por defecto para que no haya vacíos
+        await updateDoc(guestRef, {
+          confirmed: true,
+          asiste: false,
+          telefono: "",
+          menuEspecial: false,
+          menu: "No asiste",
+          ninos: false,
+          trona: false,
+          transporte: false,
+          alergias: "",
+          otros: "Lamentablemente no puede asistir."
+        });
 
-    btnSubmit.disabled = true;
-    btnSubmit.innerText = "Enviando...";
+        const formMsg = document.getElementById("form-message-main");
+        if (formMsg) {
+          formMsg.innerText = "Entendido, echaremos de menos tu compañía 🤍";
+          formMsg.style.color = "var(--burgundy, #6b1d2a)";
+        }
+        btnSubmitMain.innerText = "✓ Confirmado";
 
-    try {
-      const guestRef = doc(db, "invitados", currentGuestId);
-      await updateDoc(guestRef, {
-        confirmed: true,
-        asiste: asiste === "si",
-        telefono: asiste === "si" ? telefono : "",
-        menu: asiste === "si" ? menu : "No asiste",
-      });
-      const formMsg = document.getElementById("form-message");
-      formMsg.innerText = "¡Confirmación guardada con éxito!";
-      formMsg.style.color = "var(--burgundy)";
-      btnSubmit.innerText = "✓ Enviado";
-    } catch (e) {
-      alert("Hubo un error al guardar. Por favor, avísanos por teléfono.");
-      btnSubmit.disabled = false;
-      btnSubmit.innerText = "Confirmar";
+      } catch (error) {
+        console.error("Error al guardar el NO:", error);
         alert("Hubo un error al guardar. Por favor, avísanos por teléfono.");
         btnSubmitMain.disabled = false;
         btnSubmitMain.innerText = "Confirmar que no asistes";
-    }
-});
+      }
+    });
+  }
 
 // 2. Manejo del "SÍ asisto" (Ajustado EXACTAMENTE a tu Firebase)
 document.getElementById('rsvp-sheet-form').addEventListener('submit', async (e) => {
