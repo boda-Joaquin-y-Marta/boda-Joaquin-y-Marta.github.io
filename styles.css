@@ -917,7 +917,7 @@ body {
   /* Cajas de texto más compactas pero sin ocupar todo el ancho */
   .timeline-content {
     width: 45% !important; /* Aprovecha el espacio de cada lado al máximo */
-    padding: 10px !important;
+    padding: 4px !important;
   }
   
   /* Mantenemos explícitamente la alineación a los lados */
