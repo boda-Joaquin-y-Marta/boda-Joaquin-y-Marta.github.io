@@ -41,8 +41,8 @@ setInterval(() => {
 }, 1000);
 
 // --- ACCESO ---
-const showInvitation = (nombre) => {
-    document.getElementById('welcome-message').innerText = `BIENVENIDO/A, ${nombre}`;
+const showInvitation = (nickName) => {
+    document.getElementById('welcome-message').innerText = `BIENVENIDO/A, ${nickName}`;
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
     window.scrollTo(0, 0); 
@@ -55,7 +55,7 @@ window.addEventListener("load", async () => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       currentGuestId = savedCode;
-      showInvitation(docSnap.data().name);
+      showInvitation(docSnap.data().nickName);
     }
   }
 });
