@@ -76,7 +76,7 @@ btnLogin.addEventListener("click", async () => {
     if (docSnap.exists()) {
       currentGuestId = code;
       sessionStorage.setItem("guestCode", code);
-      showInvitation(docSnap.data().name);
+      showInvitation(docSnap.data().nickName);
     } else {
       document.getElementById("login-error").style.display = "block";
       btnLogin.innerText = "Acceder";
