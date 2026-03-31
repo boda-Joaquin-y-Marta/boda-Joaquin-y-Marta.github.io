@@ -18,7 +18,8 @@ body {
 
 /* ================= LOGIN ================= */
 .login-container {
-  height: 100vh;
+  height: 100vh; /* Fallback navegadores antiguos */
+  height: 100dvh; /* 🌟 SOLUCIÓN iOS: Altura dinámica que ignora la barra de Safari */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,8 +94,10 @@ body {
 .card-stack {
   /* 🌟 CLAVE 2: Contenedor de pantalla completa con deslizamiento por bloques */
   height: 100vh; 
+  height: 100dvh; /* 🌟 SOLUCIÓN iOS */
   width: 100vw;
-  overflow-y: scroll;
+  overflow-y: auto; /* En iOS 'auto' responde mejor que 'scroll' estricto */
+  -webkit-overflow-scrolling: touch; /* 🌟 SOLUCIÓN iOS: Devuelve el deslizamiento fluido y rápido (momentum) */
   scroll-snap-type: y mandatory;
   
   /* Ocultamos las barras de scroll para una experiencia más limpia */
@@ -108,13 +111,14 @@ body {
 .sticky-card {
   /* 🌟 CLAVE 3: Tarjetas relativas (adiós al sticky) de alto exacto */
   position: relative; 
-  min-height: 100vh; /* Permite que ocupe la pantalla como mínimo */
+  min-height: 100vh; 
+  min-height: 100dvh; /* 🌟 SOLUCIÓN iOS */
   height: auto;      /* Permite que crezca hacia abajo si hay muchos eventos */
   width: 100%;
   
   /* Hacemos que la pantalla encaje aquí al deslizar */
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal; /* 🌟 SOLUCIÓN iOS: Cambiamos 'always' por 'normal'. Esto quita el efecto de estar "atascado" */
   
   /* 🌟 CLAVE 4: Elimina el scroll interno conflictivo */
   overflow-y: visible; 
@@ -139,6 +143,7 @@ body {
   position: relative;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh; /* 🌟 SOLUCIÓN iOS */
   display: flex;
   flex-direction: column;
   justify-content: center;
