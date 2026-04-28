@@ -23,6 +23,26 @@ const btnDeleteSelected = document.getElementById("btn-delete-selected");
 const selectedCountLabel = document.getElementById("selected-count");
 const checkAll = document.getElementById("check-all");
 
+// --- Lógica de Login ---
+document.getElementById("btn-admin-login").addEventListener("click", async () => {
+    const email = document.getElementById("admin-email").value;
+    const pass = document.getElementById("admin-password").value;
+    const errorMsg = document.getElementById("admin-error");
+
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        errorMsg.classList.add("hidden");
+    } catch (e) {
+        console.error("Error de login:", e);
+        errorMsg.classList.remove("hidden");
+    }
+});
+
+// --- Lógica de Logout ---
+document.getElementById("btn-logout").addEventListener("click", () => {
+    signOut(auth);
+});
+
 // --- Selección Masiva ---
 function actualizarInterfazSeleccion() {
     const count = seleccionados.size;
@@ -48,7 +68,7 @@ btnDeleteSelected.addEventListener("click", async () => {
     actualizarInterfazSeleccion();
 });
 
-// --- Auth ---
+// --- Estado de la Sesión ---
 onAuthStateChanged(auth, (user) => {
     if (user) {
         document.getElementById("admin-login").classList.add("hidden");
@@ -60,17 +80,10 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// function escucharDatos() {
-//     onSnapshot(collection(db, "invitados"), (snapshot) => {
-//         dataLocal = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-//         renderizarTodo();
-//     });
-// }
 function escucharDatos() {
     onSnapshot(collection(db, "invitados"), (snapshot) => {
-        console.log("Documentos en Firebase:", snapshot.size); // Esto dirá cuántos hay en la DB
+        console.log("Documentos en Firebase:", snapshot.size); 
         dataLocal = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        console.log("IDs cargados:", dataLocal.map(i => i.id)); // Esto listará todos los IDs en la consola
         renderizarTodo();
     });
 }
@@ -126,7 +139,6 @@ function renderizarTodo() {
             </td>
         `;
 
-        // Eventos de botones
         tr.querySelector(".row-check").addEventListener("change", (e) => {
             if (e.target.checked) seleccionados.add(inv.id);
             else seleccionados.delete(inv.id);
@@ -156,7 +168,6 @@ function renderizarTodo() {
         guestsBody.appendChild(tr);
     });
 
-    // --- ACTUALIZACIÓN DE CONTADORES ---
     document.getElementById('count-total').innerText = dataLocal.length;
     document.getElementById('count-si').innerText = dataLocal.filter(i => i.confirmed && i.asiste).length;
     document.getElementById('count-no').innerText = dataLocal.filter(i => i.confirmed && !i.asiste).length;
@@ -168,7 +179,6 @@ function renderizarTodo() {
     document.getElementById(id).addEventListener("input", renderizarTodo);
 });
 
-// Modal Añadir
 document.getElementById("btn-open-modal").addEventListener("click", () => document.getElementById("modal-invitado").classList.remove("hidden"));
 document.getElementById("btn-cancelar").addEventListener("click", () => document.getElementById("modal-invitado").classList.add("hidden"));
 document.getElementById("btn-guardar-nuevo").addEventListener("click", async () => {
