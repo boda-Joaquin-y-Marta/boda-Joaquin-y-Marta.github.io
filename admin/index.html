@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Joaquín & Marta</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div id="admin-login" class="login-overlay">
+      <div class="login-card">
+        <h2 style="color: var(--burgundy)">Panel Admin</h2>
+        <input type="email" id="admin-email" placeholder="Email" />
+        <input type="password" id="admin-password" placeholder="Contraseña" />
+        <button id="btn-admin-login">Entrar</button>
+        <p id="admin-error" class="hidden">Acceso denegado</p>
+      </div>
+    </div>
+
+    <div id="admin-content" class="admin-container hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 style="margin: 0;">Lista de Invitados</h1>
+        <div style="display: flex; gap: 10px;">
+          <button id="btn-delete-selected" class="btn-delete-selected">Eliminar Seleccionados (<span id="selected-count">0</span>)</button>
+          <button id="btn-open-modal" class="btn-add-main">+ Añadir</button>
+          <button id="btn-logout" style="background: white; border: 1px solid var(--burgundy); color: var(--burgundy); cursor: pointer; padding: 8px 15px; border-radius: 5px; font-weight: bold;">Salir</button>
+        </div>
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-box" style="background: #e3f2fd; color: #0d47a1;">TOTAL: <span id="count-total">0</span></div>
+        <div class="stat-box badge-si">SÍ: <span id="count-si">0</span></div>
+        <div class="stat-box badge-no">NO: <span id="count-no">0</span></div>
+        <div class="stat-box" style="background: #fff3e0; color: #e65100;">PENDIENTES: <span id="count-pend">0</span></div>
+        <div class="stat-box" style="background: #f3e5f5; color: #4a148c;">BUS: <span id="count-bus">0</span></div>
+      </div>
+
+      <div class="filters-container">
+        <input type="text" id="search-input" placeholder="🔍 Buscar por nombre...">
+        <select id="filter-asistencia">
+          <option value="todos">Asistencia: Todos</option>
+          <option value="si">Confirmados (SÍ)</option>
+          <option value="no">Declinados (NO)</option>
+          <option value="pendiente">Pendientes</option>
+        </select>
+        <select id="filter-bus">
+          <option value="todos">Bus: Todos</option>
+          <option value="si">Van en Bus</option>
+          <option value="no">No van</option>
+        </select>
+        <select id="filter-orden">
+          <option value="asc">Orden: A-Z</option>
+          <option value="desc">Orden: Z-A</option>
+        </select>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-check"><input type="checkbox" id="check-all"></th>
+              <th>Nombre</th>
+              <th>Asistencia</th>
+              <th>Teléfono</th>
+              <th>Alergias</th>
+              <th>Menú</th>
+              <th style="text-align: center;">Bus</th>
+              <th style="text-align: center;">Niños</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="guests-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="modal-invitado" class="modal hidden">
+        <div class="modal-content">
+            <h3>Nuevo Invitado</h3>
+            <input type="text" id="new-id" placeholder="ID (ej: paco-garcia)" style="width:100%; margin-bottom:10px;">
+            <input type="text" id="new-nickname" placeholder="Nickname (ej: Paco y Ana)" style="width:100%; margin-bottom:20px;">
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button id="btn-cancelar">Cancelar</button>
+                <button id="btn-guardar-nuevo" class="btn-add-main">Crear</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>
